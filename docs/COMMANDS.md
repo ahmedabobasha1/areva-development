@@ -501,3 +501,20 @@ git commit && git push
 ```
 
 Documented full file change list for media uploads on chore/maintenance
+
+### Slug auto-generation (chore/maintenance)
+
+```bash
+# Added app/Support/Slug.php
+# CreateArticle / CreateCategory: mutateFormDataBeforeCreate generates slug
+# Article + Category forms: slug visibleOn('edit') only
+```
+
+
+### 2026-09-04T22:40:12Z (chore/maintenance)
+
+```bash
+slug auto from title/name on create
+```
+
+Slug hidden on create; editable on edit for articles and categories

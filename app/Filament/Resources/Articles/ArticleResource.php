@@ -26,7 +26,6 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Support\Str;
 
 class ArticleResource extends Resource
 {
@@ -62,18 +61,12 @@ class ArticleResource extends Resource
                         TextInput::make('title')
                             ->required()
                             ->maxLength(190)
-                            ->live(onBlur: true)
-                            ->afterStateUpdated(function (?string $state, callable $set, callable $get): void {
-                                if (filled($get('slug'))) {
-                                    return;
-                                }
-
-                                $set('slug', Str::slug((string) $state));
-                            })
                             ->columnSpanFull(),
                         TextInput::make('slug')
                             ->required()
                             ->maxLength(190)
+                            ->helperText('Generated from the title when the article is created. You can change it here.')
+                            ->visibleOn('edit')
                             ->columnSpanFull(),
                         Textarea::make('excerpt')
                             ->rows(3)

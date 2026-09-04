@@ -55,3 +55,10 @@ php artisan filament:optimize-clear
 - Admin edit forms show **Images** upload fields
 - After upload, article/category public pages show the new images
 - Article gallery appears under the body when related images exist
+
+## Slug auto-generation (follow-up)
+
+- **Create:** slug field is hidden; generated from article `title` / category `name` via `App\Support\Slug`
+- **Edit:** slug field is visible so admins can change it
+- Files: `app/Support/Slug.php`, `CreateArticle.php`, `CreateCategory.php`, Article/Category resources
+
