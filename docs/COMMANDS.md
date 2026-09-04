@@ -136,3 +136,22 @@ php artisan tinker --execute="echo 'categories='.App\\Models\\Category::count().
 ```
 
 Result: categories=5, articles=1, settings=4.
+
+---
+
+## feature/02-schema-models
+
+```bash
+cd /home/ahmed-abobasha/areva-development
+git checkout -b feature/02-schema-models
+```
+
+Created migrations + models for `categories`, `articles`, `hero_slides`, `popular_topics`, `contact_messages`, `settings`.
+
+```bash
+php artisan migrate --force
+php artisan db:seed --force
+php artisan tinker --execute="echo 'categories='.App\\Models\\Category::count().' articles='.App\\Models\\Article::count().' settings='.App\\Models\\Setting::count();"
+```
+
+Result: 5 categories, 1 article, 4 settings keys.

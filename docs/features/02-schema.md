@@ -1,19 +1,24 @@
-# Feature 02 — Schema & models
+# Feature 02 — Schema & seeders
 
 **Branch:** `feature/02-schema-models`
 
 ## Goal
 
-Create bilingual domain tables/models and seed demo content from the static prototype.
+Create MySQL tables and Eloquent models for bilingual CMS content + SEO fields, and seed sample Areva data.
 
 ## Tables
 
-- `categories` — translatable name/slug/description + SEO + sort/active
-- `articles` — belongs to category; translatable content + SEO; featured/trending; publish status
-- `hero_slides` — home slider; optional article link
-- `popular_topics` — home topics; optional category link
+- `categories` — translatable name/slug/description/SEO
+- `articles` — belongs to category; draft/published; featured/trending
+- `hero_slides` — home slider
+- `popular_topics` — home topics
 - `contact_messages` — form inbox
-- `settings` — key/JSON value (site, seo_defaults, organization, social)
+- `settings` — JSON key/value (site, seo_defaults, organization, social)
+
+## Models
+
+`Category`, `Article`, `HeroSlide`, `PopularTopic`, `ContactMessage`, `Setting`  
+Uses Spatie `HasTranslations` + `InteractsWithMedia` where images apply.
 
 ## Verify
 
