@@ -9,6 +9,7 @@
 
 | Commit | Message |
 |--------|---------|
+| _(pending)_ | Slug cleaning on edit (title/name + slug field) |
 | `b3386fe` | Format slugs like Str::slug while keeping Arabic letters |
 | `773c5ea` | Finalize maintenance branch changelog with complete history |
 | `d7c0952` | Keep maintenance branch commit table complete |
@@ -97,8 +98,8 @@ Admins should not type the slug when creating. Slug comes from title/name. On ed
 
 | Screen | Slug field |
 |--------|------------|
-| **Create** article / category | Hidden — generated automatically |
-| **Edit** article / category | Visible — admin can modify |
+| **Create** article / category | Hidden — generated automatically from title/name |
+| **Edit** article / category | Visible — regenerates from title/name on blur; manual slug input is also cleaned like `Str::slug` on blur/save |
 
 ### Generation rules (`App\Support\Slug`)
 
@@ -184,6 +185,30 @@ Slugs must clean spaces and special characters the same way Laravel `Str::slug` 
 | `docs/features/maintenance-media.md` | This changelog entry |
 
 ---
+
+## Change 5 — Slug cleaning on edit as well
+
+### Why
+
+Create already generated/cleaned slugs. Edit must do the same: spaces and special characters cleaned, Arabic letters kept.
+
+### Behavior on edit
+
+1. Change **title** / **name** → slug auto-updates on blur via `Slug::from`
+2. Type in **slug** → cleaned on blur via `Slug::from`
+3. On save → `EditArticle` / `EditCategory` `mutateFormDataBeforeSave` forces `Slug::from` (falls back to title/name if empty)
+
+### Files
+
+| File | Change |
+|------|--------|
+| `app/Filament/Resources/Articles/ArticleResource.php` | Title + slug live blur cleaning on edit |
+| `app/Filament/Resources/Categories/CategoryResource.php` | Name + slug live blur cleaning on edit |
+| `app/Filament/Resources/Articles/Pages/EditArticle.php` | `mutateFormDataBeforeSave` slug normalize |
+| `app/Filament/Resources/Categories/Pages/EditCategory.php` | `mutateFormDataBeforeSave` slug normalize |
+| `docs/features/maintenance-media.md` | This changelog entry |
+
+---
 ## Rule for this branch
 
 **Any new code/config/docs change on `chore/maintenance` must be added to this file** (what / why / files / commands) in the same commit or immediately after.
@@ -196,5 +221,6 @@ Slugs must clean spaces and special characters the same way Laravel `Str::slug` 
 - [ ] Article gallery shows on public article page when related images exist
 - [ ] Create article/category: no slug field; slug saved from title/name
 - [ ] Edit: slug visible and editable
+- [ ] Edit: title/name blur regenerates slug; slug field cleaned on blur/save
 - [ ] Arabic title → Arabic slug (letters preserved)
 - [ ] English title → Latin hyphenated slug

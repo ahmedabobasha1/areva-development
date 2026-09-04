@@ -542,3 +542,11 @@ improve App\Support\Slug like Str::slug
 ```
 
 Spaces/special chars → hyphens; ASCII uses Str::slug; Arabic letters kept
+
+### 2026-09-04T23:01:57Z (chore/maintenance)
+
+```bash
+slug cleaning on edit pages
+```
+
+EditArticle/EditCategory + form blur: Slug::from on title/name and slug

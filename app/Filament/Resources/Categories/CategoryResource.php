@@ -23,6 +23,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use App\Support\Slug;
 
 class CategoryResource extends Resource
 {
@@ -45,12 +46,25 @@ class CategoryResource extends Resource
                     ->schema([
                         TextInput::make('name')
                             ->required()
-                            ->maxLength(190),
+                            ->maxLength(190)
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(function (?string $state, callable $set, string $operation): void {
+                                if ($operation !== 'edit') {
+                                    return;
+                                }
+
+                                $set('slug', Slug::from((string) $state));
+                            }),
                         TextInput::make('slug')
                             ->required()
                             ->maxLength(190)
-                            ->helperText('Generated from the name when the category is created. You can change it here.')
-                            ->visibleOn('edit'),
+                            ->helperText('Auto-updated from the name on blur. Spaces/special characters are cleaned like Str::slug; Arabic letters are kept. You can still edit it manually.')
+                            ->visibleOn('edit')
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(function (?string $state, callable $set): void {
+                                $set('slug', Slug::from((string) $state));
+                            })
+                            ->dehydrateStateUsing(fn (?string $state): string => Slug::from((string) $state)),
                         Textarea::make('description')
                             ->rows(4)
                             ->columnSpanFull(),

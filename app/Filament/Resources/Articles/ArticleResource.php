@@ -26,6 +26,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use App\Support\Slug;
 
 class ArticleResource extends Resource
 {
@@ -61,12 +62,25 @@ class ArticleResource extends Resource
                         TextInput::make('title')
                             ->required()
                             ->maxLength(190)
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(function (?string $state, callable $set, string $operation): void {
+                                if ($operation !== 'edit') {
+                                    return;
+                                }
+
+                                $set('slug', Slug::from((string) $state));
+                            })
                             ->columnSpanFull(),
                         TextInput::make('slug')
                             ->required()
                             ->maxLength(190)
-                            ->helperText('Generated from the title when the article is created. You can change it here.')
+                            ->helperText('Auto-updated from the title on blur. Spaces/special characters are cleaned like Str::slug; Arabic letters are kept. You can still edit it manually.')
                             ->visibleOn('edit')
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(function (?string $state, callable $set): void {
+                                $set('slug', Slug::from((string) $state));
+                            })
+                            ->dehydrateStateUsing(fn (?string $state): string => Slug::from((string) $state))
                             ->columnSpanFull(),
                         Textarea::make('excerpt')
                             ->rows(3)
