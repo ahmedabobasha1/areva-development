@@ -15,22 +15,32 @@
 ├── docs/                # Project documentation + command log
 ├── legacy-static/       # Previous static HTML prototype
 ├── public/              # Web root (includes Filament assets)
-├── resources/views/     # Blade (to be filled in feature/03)
+├── public/assets/       # Ported CSS/JS/images from legacy-static
+├── resources/views/     # Blade layouts + public pages (feature/03)
 ├── routes/web.php
 └── scripts/             # Helper scripts
 ```
 
 ## Locales
 
-Planned public URLs: `/{locale}/...` with `en` and `ar` (feature/04).
+Public URLs: `/{locale}/...` with `en` and `ar` (started in feature/03; middleware polish in feature/04).  
+HTML `lang` / `dir` set from locale in the Blade layout.
 
 ## SEO
 
-Planned `SeoBuilder` + `partials/seo.blade.php`, sitemap, robots (feature/06).
+Basic meta/canonical/hreflang in `partials/seo.blade.php` (feature/03).  
+Planned `SeoBuilder`, sitemap, robots (feature/06).
 
-## Domain models (feature/02)
+## Public Blade (feature/03)
 
-Implemented: `Category`, `Article`, `HeroSlide`, `PopularTopic`, `ContactMessage`, `Setting` with Spatie Translatable JSON fields and SEO columns. Seeded 5 categories + 1 published article + site settings.
+| Piece | Path |
+|-------|------|
+| Layout | `resources/views/layouts/app.blade.php` |
+| Partials | `header`, `footer`, `lang-switcher`, `seo` |
+| Pages | `home`, `categories/show`, `articles/show` |
+| Controllers | `Home`, `Category`, `Article`, `Contact` |
+
+`Setting::getValue()` caches decoded JSON values only (never Eloquent models).
 
 ## Domain models (feature/02)
 

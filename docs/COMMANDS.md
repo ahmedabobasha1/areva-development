@@ -90,12 +90,6 @@ mkdir -p docs/features scripts
 
 ---
 
-## Later features
-
-Commands for `feature/02` … `feature/06` will be appended below as those branches are built.
-
----
-
 ## Workspace path rename (2026-09-04)
 
 ```bash
@@ -155,3 +149,93 @@ php artisan tinker --execute="echo 'categories='.App\\Models\\Category::count().
 ```
 
 Result: 5 categories, 1 article, 4 settings keys.
+
+---
+
+## feature/03-blade-shell
+
+```bash
+cd /home/ahmed-abobasha/areva-development
+git checkout -b feature/03-blade-shell
+```
+
+### Port static assets into Laravel public
+
+```bash
+mkdir -p public/assets
+cp -a legacy-static/assets/. public/assets/
+```
+
+Adjusted CSS so `.lang-btn` works as `<a>` (locale URLs). Removed JS-only language switcher logic from `public/assets/js/main.js`.
+
+### Blade layout + pages + controllers
+
+Created:
+
+- `resources/views/layouts/app.blade.php`
+- `resources/views/partials/{seo,header,footer,lang-switcher}.blade.php`
+- `resources/views/home.blade.php`
+- `resources/views/categories/show.blade.php`
+- `resources/views/articles/show.blade.php`
+- `app/Http/Controllers/{Home,Category,Article,Contact}Controller.php`
+- Updated `routes/web.php` — `/` → `/en`; `/{locale}` home, category, blog, contact POST
+
+### Setting cache fix (HTTP 500 on category/article)
+
+Bug: `Setting::getValue()` cached Eloquent models with `Cache::rememberForever` (database driver). Unserialize failed with “incomplete object”.
+
+```bash
+# Fixed app/Models/Setting.php to cache $setting?->value only
+php artisan cache:clear
+php artisan view:clear
+php artisan tinker --execute="Illuminate\Support\Facades\DB::table('cache')->truncate();"
+```
+
+### Verify public pages
+
+```bash
+php -r '
+require "vendor/autoload.php";
+$app = require "bootstrap/app.php";
+$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+foreach ([
+  "/en",
+  "/en/categories/new-cairo",
+  "/en/blog/future-of-modern-living-in-new-cairo",
+  "/ar",
+  "/ar/categories/new-cairo",
+  "/ar/blog/future-of-modern-living-in-new-cairo",
+] as $uri) {
+  $response = $kernel->handle(Illuminate\Http\Request::create($uri, "GET"));
+  echo $uri." => ".$response->getStatusCode()."\n";
+}
+'
+```
+
+Result: all listed URLs returned **HTTP 200**.
+
+### Documentation
+
+```bash
+# wrote docs/features/03-blade-shell.md
+# updated docs/ARCHITECTURE.md
+# appended this section to docs/COMMANDS.md
+./scripts/append-command-log.sh "feature/03-blade-shell" "php artisan cache:clear" "After Setting::getValue cache fix"
+```
+
+
+### 2026-09-04T15:41:39Z (feature/03-blade-shell)
+
+```bash
+php artisan cache:clear && php artisan view:clear
+```
+
+Cleared stale Setting model cache after getValue fix
+
+### 2026-09-04T15:41:39Z (feature/03-blade-shell)
+
+```bash
+php artisan tinker --execute="Illuminate\Support\Facades\DB::table('cache')->truncate();"
+```
+
+Truncated cache table to drop serialized Setting models

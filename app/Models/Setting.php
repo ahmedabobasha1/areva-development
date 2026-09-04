@@ -21,11 +21,11 @@ class Setting extends Model
 
     public static function getValue(string $key, mixed $default = null): mixed
     {
-        $setting = Cache::rememberForever("setting.{$key}", function () use ($key) {
-            return static::query()->where('key', $key)->first();
-        });
+        return Cache::rememberForever("setting.{$key}", function () use ($key, $default) {
+            $setting = static::query()->where('key', $key)->first();
 
-        return $setting?->value ?? $default;
+            return $setting?->value ?? $default;
+        });
     }
 
     public static function setValue(string $key, mixed $value): self
