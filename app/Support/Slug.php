@@ -7,7 +7,8 @@ use Illuminate\Support\Str;
 class Slug
 {
     /**
-     * Build a URL slug while keeping letters from any language (including Arabic).
+     * Build a URL slug like Laravel Str::slug (spaces/special chars → hyphens),
+     * while keeping non-Latin letters such as Arabic.
      */
     public static function from(string $value): string
     {
@@ -17,15 +18,21 @@ class Slug
             return '';
         }
 
-        // Keep letters/numbers from all scripts; turn spaces/underscores into hyphens.
-        $slug = preg_replace('/[^\p{L}\p{N}\s-]+/u', '', $value) ?? '';
-        $slug = preg_replace('/[\s_]+/u', '-', trim($slug)) ?? '';
+        // Pure ASCII/Latin titles: use Laravel Str::slug exactly.
+        if (! preg_match('/[^\x00-\x7F]/', $value)) {
+            return Str::slug($value);
+        }
+
+        // Unicode titles (e.g. Arabic): same formatting rules, keep letters.
+        // 1) Turn any run of non-letter/non-number chars into a single hyphen
+        //    (spaces, punctuation, symbols, underscores, dots, etc.)
+        $slug = preg_replace('/[^\p{L}\p{N}]+/u', '-', $value) ?? '';
+
+        // 2) Collapse duplicate hyphens and trim edges
         $slug = preg_replace('/-+/u', '-', $slug) ?? '';
         $slug = trim($slug, '-');
 
-        // Lowercase only Latin parts; Arabic letters stay as-is.
-        $slug = Str::lower($slug);
-
-        return $slug;
+        // 3) Lowercase Latin characters; Arabic letters stay unchanged
+        return mb_strtolower($slug, 'UTF-8');
     }
 }

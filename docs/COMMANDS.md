@@ -534,3 +534,11 @@ rewrite docs/features/maintenance-media.md
 ```
 
 Full branch changelog: every commit, media + slug + Arabic letters + file list
+
+### 2026-09-04T22:56:03Z (chore/maintenance)
+
+```bash
+improve App\Support\Slug like Str::slug
+```
+
+Spaces/special chars → hyphens; ASCII uses Str::slug; Arabic letters kept

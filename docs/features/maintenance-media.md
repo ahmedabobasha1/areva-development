@@ -9,6 +9,8 @@
 
 | Commit | Message |
 |--------|---------|
+| _(pending)_ | Slug formatting like Str::slug (spaces/special chars) + keep Arabic |
+| `773c5ea` | Finalize maintenance branch changelog with complete history |
 | `d7c0952` | Keep maintenance branch commit table complete |
 | `7e1ba98` | Sync commit list in maintenance branch documentation |
 | `bbb032e` | Include latest docs commit in the maintenance branch changelog |
@@ -100,14 +102,21 @@ Admins should not type the slug when creating. Slug comes from title/name. On ed
 
 ### Generation rules (`App\Support\Slug`)
 
+Works like Laravel `Str::slug` for spaces and special characters:
+
+| Input issue | Handling |
+|-------------|----------|
+| Spaces / underscores / punctuation / symbols | Converted to `-` (same idea as `Str::slug`) |
+| Multiple separators | Collapsed to one `-` |
+| Leading/trailing `-` | Trimmed |
+| English / ASCII titles | Uses `Str::slug()` exactly |
+| Arabic titles | Same formatting, **Arabic letters kept** |
+
 | Title language | Example title | Stored slug |
 |----------------|---------------|-------------|
-| English | `Future of Modern Living` | `future-of-modern-living` |
-| Arabic | `مستقبل المعيشة في القاهرة الجديدة` | `مستقبل-المعيشة-في-القاهرة-الجديدة` |
-
-- Arabic **letters are kept** (not transliterated to Latin)
-- Spaces → hyphens; punctuation stripped
-- Latin letters lowercased
+| English | `Future of Modern Living!!!` | `future-of-modern-living` |
+| English | `foo_bar.baz` | `foo-barbaz` (same as `Str::slug`) |
+| Arabic | `مستقبل المعيشة!!! في القاهرة` | `مستقبل-المعيشة-في-القاهرة` |
 
 ### Files touched (slug)
 
@@ -155,6 +164,26 @@ resources/views/articles/show.blade.php
 
 ---
 
+
+## Change 4 — Slug formatting like `Str::slug`
+
+### Why
+
+Slugs must clean spaces and special characters the same way Laravel `Str::slug` does, while still keeping Arabic letters.
+
+### Behavior
+
+- ASCII/English titles → exact `Str::slug($title)`
+- Arabic / mixed titles → non-letter/number runs become `-`, collapse hyphens, keep Arabic letters
+
+### Files
+
+| File | Change |
+|------|--------|
+| `app/Support/Slug.php` | Updated formatting rules |
+| `docs/features/maintenance-media.md` | This changelog entry |
+
+---
 ## Rule for this branch
 
 **Any new code/config/docs change on `chore/maintenance` must be added to this file** (what / why / files / commands) in the same commit or immediately after.
