@@ -28,6 +28,6 @@ Planned public URLs: `/{locale}/...` with `en` and `ar` (feature/04).
 
 Planned `SeoBuilder` + `partials/seo.blade.php`, sitemap, robots (feature/06).
 
-## Domain models (next: feature/02)
+## Domain models (feature/02)
 
-Category, Article, HeroSlide, PopularTopic, ContactMessage, Setting — with bilingual SEO fields.
+Implemented: `Category`, `Article`, `HeroSlide`, `PopularTopic`, `ContactMessage`, `Setting` with Spatie Translatable JSON fields and SEO columns. Seeded 5 categories + 1 published article + site settings.

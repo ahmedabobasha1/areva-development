@@ -105,3 +105,34 @@ cd areva-development
 ```
 
 Local project path is now `/home/ahmed-abobasha/areva-development` (same name as the GitHub repo). Re-open this folder in Cursor if the IDE still points at `freelance`.
+
+---
+
+## feature/02-schema-models
+
+```bash
+cd /home/ahmed-abobasha/areva-development
+git checkout -b feature/02-schema-models
+```
+
+Created migrations:
+
+```bash
+# files under database/migrations/
+# 2026_09_04_160000_create_categories_table.php
+# 2026_09_04_160100_create_articles_table.php
+# 2026_09_04_160200_create_hero_slides_table.php
+# 2026_09_04_160300_create_popular_topics_table.php
+# 2026_09_04_160400_create_contact_messages_table.php
+# 2026_09_04_160500_create_settings_table.php
+```
+
+Models: `Category`, `Article`, `HeroSlide`, `PopularTopic`, `ContactMessage`, `Setting`.
+
+```bash
+php artisan migrate --force
+php artisan db:seed --force
+php artisan tinker --execute="echo 'categories='.App\\Models\\Category::count().' articles='.App\\Models\\Article::count().' settings='.App\\Models\\Setting::count();"
+```
+
+Result: categories=5, articles=1, settings=4.
