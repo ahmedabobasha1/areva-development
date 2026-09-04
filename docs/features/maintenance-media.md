@@ -60,5 +60,7 @@ php artisan filament:optimize-clear
 
 - **Create:** slug field is hidden; generated from article `title` / category `name` via `App\Support\Slug`
 - **Edit:** slug field is visible so admins can change it
+- **Arabic:** Arabic letters are kept in the slug (not transliterated), e.g. `مستقبل-المعيشة-في-القاهرة-الجديدة`
+- **English:** still lowercased hyphenated ASCII, e.g. `future-of-modern-living`
 - Files: `app/Support/Slug.php`, `CreateArticle.php`, `CreateCategory.php`, Article/Category resources
 

@@ -518,3 +518,11 @@ slug auto from title/name on create
 ```
 
 Slug hidden on create; editable on edit for articles and categories
+
+### 2026-09-04T22:45:20Z (chore/maintenance)
+
+```bash
+update App\Support\Slug to keep Arabic letters
+```
+
+Arabic titles now produce Arabic URL slugs instead of Latin transliteration
