@@ -45,6 +45,19 @@ Planned `SeoBuilder`, sitemap, robots (feature/06).
 
 `Setting::getValue()` caches decoded JSON values only (never Eloquent models).
 
+## Filament admin (feature/05)
+
+Panel path: `/admin` with `ezappslab/filament-translatable` locale switcher (EN/AR).
+
+| Resource | Group | Notes |
+|----------|-------|-------|
+| Categories | Content | Translatable + SEO section |
+| Articles | Content | Translatable + RichEditor + SEO |
+| Hero slides | Home | Translatable titles/CTAs |
+| Popular topics | Home | Translatable |
+| Contact messages | Inbox | Read-only create; mark read on open |
+| Settings | System | JSON `value` editor |
+
 ## Domain models (feature/02)
 
 | Model | Notes |

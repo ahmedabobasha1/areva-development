@@ -308,3 +308,78 @@ php artisan route:list --columns=method,uri,name,middleware
 ```
 
 Listed public locale routes with middleware
+
+---
+
+## feature/05-filament-resources
+
+```bash
+cd /home/ahmed-abobasha/areva-development
+git checkout -b feature/05-filament-resources
+```
+
+### Install Filament 5 translatable plugin
+
+```bash
+composer require ezappslab/filament-translatable --no-interaction
+php artisan filament-translatable:install --no-interaction
+```
+
+Configured `config/filament-translatable.php` locales to **English + Arabic**.
+
+Registered `FilamentTranslatablePlugin` on `AdminPanelProvider` with the same locales.
+
+### Generate + polish resources
+
+```bash
+php artisan make:filament-resource Category --generate --embed-schemas --embed-table --record-title-attribute=name --no-interaction
+php artisan make:filament-resource Article --generate --embed-schemas --embed-table --record-title-attribute=title --no-interaction
+php artisan make:filament-resource HeroSlide --generate --embed-schemas --embed-table --record-title-attribute=title --no-interaction
+php artisan make:filament-resource PopularTopic --generate --embed-schemas --embed-table --record-title-attribute=title --no-interaction
+php artisan make:filament-resource ContactMessage --generate --embed-schemas --embed-table --record-title-attribute=name --no-interaction
+php artisan make:filament-resource Setting --generate --embed-schemas --embed-table --record-title-attribute=key --no-interaction
+php artisan filament:optimize-clear
+```
+
+Added SEO section helper `app/Filament/Support/SeoFields.php` and wired `SelectLocaleAction` + translatable page concerns on Category/Article/HeroSlide/PopularTopic pages.
+
+### Verify
+
+```bash
+php artisan about
+# Resource URLs resolve under /admin/{categories,articles,hero-slides,popular-topics,contact-messages,settings}
+# /admin/login => HTTP 200
+```
+
+### Documentation
+
+```bash
+# wrote docs/features/05-filament-resources.md
+# updated docs/ARCHITECTURE.md + docs/COMMANDS.md
+./scripts/append-command-log.sh "feature/05-filament-resources" "composer require ezappslab/filament-translatable" "Filament 5 EN/AR admin translations"
+```
+
+
+### 2026-09-04T15:59:18Z (feature/05-filament-resources)
+
+```bash
+composer require ezappslab/filament-translatable --no-interaction
+```
+
+Installed Filament 5 Spatie translatable plugin
+
+### 2026-09-04T15:59:18Z (feature/05-filament-resources)
+
+```bash
+php artisan make:filament-resource Category Article HeroSlide PopularTopic ContactMessage Setting --generate ...
+```
+
+Generated Filament resources then customized forms/SEO/locale switcher
+
+### 2026-09-04T15:59:18Z (feature/05-filament-resources)
+
+```bash
+php artisan filament:optimize-clear
+```
+
+Cleared Filament component cache after resources
