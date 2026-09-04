@@ -1330,6 +1330,8 @@ a.footer-contact-card:hover {
   gap: 28px;
 }
 .cat-article-card {
+  display: block;
+  color: inherit;
   background: #fff;
   border-radius: 16px;
   overflow: hidden;
