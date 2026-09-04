@@ -8,10 +8,38 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  initLangSwitcher();
   initHeroSlider();
   initCategorySlider();
 });
 
+function initLangSwitcher() {
+  var root = document.documentElement;
+  var buttons = Array.prototype.slice.call(document.querySelectorAll('.lang-btn'));
+  if (!buttons.length) return;
+
+  function applyLang(lang) {
+    var isAr = lang === 'ar';
+    root.setAttribute('lang', isAr ? 'ar' : 'en');
+    root.setAttribute('dir', isAr ? 'rtl' : 'ltr');
+    try { localStorage.setItem('areva-lang', lang); } catch (e) {}
+    buttons.forEach(function (btn) {
+      var active = btn.getAttribute('data-lang') === lang;
+      btn.classList.toggle('is-active', active);
+      btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+  }
+
+  var saved = 'en';
+  try { saved = localStorage.getItem('areva-lang') || 'en'; } catch (e) {}
+  applyLang(saved === 'ar' ? 'ar' : 'en');
+
+  buttons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      applyLang(btn.getAttribute('data-lang'));
+    });
+  });
+}
 function initHeroSlider() {
   var slider = document.querySelector('[data-hero-slider]');
   if (!slider) return;
