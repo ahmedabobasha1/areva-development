@@ -9,7 +9,7 @@
 
 | Commit | Message |
 |--------|---------|
-| _(pending)_ | Slug formatting like Str::slug (spaces/special chars) + keep Arabic |
+| `b3386fe` | Format slugs like Str::slug while keeping Arabic letters |
 | `773c5ea` | Finalize maintenance branch changelog with complete history |
 | `d7c0952` | Keep maintenance branch commit table complete |
 | `7e1ba98` | Sync commit list in maintenance branch documentation |
