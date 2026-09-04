@@ -526,3 +526,11 @@ update App\Support\Slug to keep Arabic letters
 ```
 
 Arabic titles now produce Arabic URL slugs instead of Latin transliteration
+
+### 2026-09-04T22:50:46Z (chore/maintenance)
+
+```bash
+rewrite docs/features/maintenance-media.md
+```
+
+Full branch changelog: every commit, media + slug + Arabic letters + file list

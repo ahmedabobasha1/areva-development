@@ -17,5 +17,5 @@
 | `feature/04-public-routes` | Locale public routes |
 | `feature/05-filament-resources` | Admin CRUD EN/AR |
 | `feature/06-seo` | SeoBuilder, sitemap, robots, hreflang |
-| `chore/maintenance` | Media uploads (article cover/gallery, category hero) — see [features/maintenance-media.md](features/maintenance-media.md) |
+| `chore/maintenance` | Maintenance branch (media uploads + Arabic-aware auto slugs) — **full changelog:** [features/maintenance-media.md](features/maintenance-media.md) |
 | `master` | Merged features 01–06 |

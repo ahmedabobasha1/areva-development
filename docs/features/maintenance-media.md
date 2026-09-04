@@ -1,66 +1,165 @@
-# Maintenance — Media uploads in Filament
+# Branch docs — `chore/maintenance`
 
-**Branch:** `chore/maintenance`  
 **Base:** `master`  
-**Commit:** `e08d33a` — Add Filament media uploads for articles and categories.
+**Purpose:** Track every change made on this maintenance branch (media uploads + slug behavior).
 
-## Why
+---
 
-Models already had Spatie Media Library collections (`cover`, `gallery`, `hero`, etc.), and the public Blade views already read them — but admin forms had no upload fields, so editors could not set images.
+## Commits (newest first)
 
-## Delivered
+| Commit | Message |
+|--------|---------|
+| `ebd4e6c` | Keep Arabic letters in auto-generated slugs |
+| `1ebb482` | Auto-generate article and category slugs on create |
+| `c84dab2` | Index chore/maintenance in the docs README branch table |
+| `c3ccc16` | Document all chore/maintenance media upload changes |
+| `e08d33a` | Add Filament media uploads for articles and categories |
 
-- Installed `filament/spatie-laravel-media-library-plugin` (^5)
-- **Articles:** Main image (`cover`), related images (`gallery`), SEO image (`seo`)
-- **Categories:** Main image (`hero`), SEO image (`seo`)
-- **Hero slides / Popular topics:** Main image (`image`)
-- Article page renders gallery when related images exist
-- `FILESYSTEM_DISK=public` (`.env` / `.env.example`) + `php artisan storage:link` for public URLs
+---
 
-## Files changed on this branch
+## Change 1 — Media uploads in Filament admin
+
+### Why
+
+Models already had Spatie Media Library collections (`cover`, `gallery`, `hero`, `image`, `seo`), and public Blade already called `getFirstMediaUrl(...)`. Admin forms had **no upload fields**, so editors could not set images.
+
+### What changed
+
+- Installed package: `filament/spatie-laravel-media-library-plugin` (^5)
+- Set `FILESYSTEM_DISK=public` in `.env.example` (local `.env` too; not committed)
+- Ran `php artisan storage:link`
+
+### Admin uploads added
+
+| Resource | Fields | Media collection |
+|----------|--------|------------------|
+| Articles | Main image | `cover` |
+| Articles | Related images (multiple, reorderable) | `gallery` |
+| Articles | SEO / OG image | `seo` |
+| Categories | Main image | `hero` |
+| Categories | SEO / OG image | `seo` |
+| Hero slides | Main image | `image` |
+| Popular topics | Main image | `image` |
+
+### Public site
+
+- Article detail shows a **gallery** under the body when `gallery` media exists
+- CSS: `.article-gallery` / `.article-gallery-item` (desktop + mobile)
+
+### Files touched (media)
 
 | File | Change |
 |------|--------|
-| `composer.json` / `composer.lock` | Added `filament/spatie-laravel-media-library-plugin` ^5 |
+| `composer.json` | Require `filament/spatie-laravel-media-library-plugin` |
+| `composer.lock` | Lockfile update |
 | `.env.example` | `FILESYSTEM_DISK=public` |
-| `app/Filament/Resources/Articles/ArticleResource.php` | Images section: cover, gallery (multiple/reorderable), seo; table thumb column |
-| `app/Filament/Resources/Categories/CategoryResource.php` | Images section: hero, seo; table thumb column |
-| `app/Filament/Resources/HeroSlides/HeroSlideResource.php` | Main image upload + table thumb |
-| `app/Filament/Resources/PopularTopics/PopularTopicResource.php` | Main image upload + table thumb |
-| `resources/views/articles/show.blade.php` | Gallery grid from `gallery` media collection |
-| `public/assets/css/styles.css` | `.article-gallery` styles (desktop + mobile) |
-| `docs/ARCHITECTURE.md` | Filament resources note images |
-| `docs/COMMANDS.md` | Logged install + storage:link commands |
-| `docs/features/maintenance-media.md` | This document |
-| `docs/README.md` | Branch index entry |
+| `app/Filament/Resources/Articles/ArticleResource.php` | Images section + table thumb |
+| `app/Filament/Resources/Categories/CategoryResource.php` | Images section + table thumb |
+| `app/Filament/Resources/HeroSlides/HeroSlideResource.php` | Image upload + table thumb |
+| `app/Filament/Resources/PopularTopics/PopularTopicResource.php` | Image upload + table thumb |
+| `resources/views/articles/show.blade.php` | Gallery markup |
+| `public/assets/css/styles.css` | Gallery styles |
+| `docs/ARCHITECTURE.md` | Note image fields on Filament resources |
 
-## Admin usage
+### How to use
 
-1. Open `/admin/articles` or `/admin/categories` (also Hero slides / Popular topics)
-2. Edit a record → **Images** section → upload
-3. Save — public pages use `getFirstMediaUrl(...)` / `getMedia('gallery')` automatically
+1. `/admin/articles` or `/admin/categories` (also Hero / Popular topics)
+2. Edit → **Images** → upload → save
+3. Public pages pick up media via Spatie helpers automatically
 
-## Commands run
+### Commands
 
 ```bash
 git checkout -b chore/maintenance
 composer require filament/spatie-laravel-media-library-plugin:"^5.0" -W --no-interaction
 php artisan storage:link
 php artisan filament:optimize-clear
-# local .env: FILESYSTEM_DISK=public (not committed)
+# local .env: FILESYSTEM_DISK=public
 ```
 
-## Verify
+---
 
-- Admin edit forms show **Images** upload fields
-- After upload, article/category public pages show the new images
-- Article gallery appears under the body when related images exist
+## Change 2 — Auto-generate slug (no manual insert on create)
 
-## Slug auto-generation (follow-up)
+### Why
 
-- **Create:** slug field is hidden; generated from article `title` / category `name` via `App\Support\Slug`
-- **Edit:** slug field is visible so admins can change it
-- **Arabic:** Arabic letters are kept in the slug (not transliterated), e.g. `مستقبل-المعيشة-في-القاهرة-الجديدة`
-- **English:** still lowercased hyphenated ASCII, e.g. `future-of-modern-living`
-- Files: `app/Support/Slug.php`, `CreateArticle.php`, `CreateCategory.php`, Article/Category resources
+Admins should not type the slug when creating. Slug comes from title/name. On edit, admins may change it.
 
+### Behavior
+
+| Screen | Slug field |
+|--------|------------|
+| **Create** article / category | Hidden — generated automatically |
+| **Edit** article / category | Visible — admin can modify |
+
+### Generation rules (`App\Support\Slug`)
+
+| Title language | Example title | Stored slug |
+|----------------|---------------|-------------|
+| English | `Future of Modern Living` | `future-of-modern-living` |
+| Arabic | `مستقبل المعيشة في القاهرة الجديدة` | `مستقبل-المعيشة-في-القاهرة-الجديدة` |
+
+- Arabic **letters are kept** (not transliterated to Latin)
+- Spaces → hyphens; punctuation stripped
+- Latin letters lowercased
+
+### Files touched (slug)
+
+| File | Change |
+|------|--------|
+| `app/Support/Slug.php` | **Added** — shared slug helper (keeps Arabic letters) |
+| `app/Filament/Resources/Articles/Pages/CreateArticle.php` | `mutateFormDataBeforeCreate` sets slug from `title` |
+| `app/Filament/Resources/Categories/Pages/CreateCategory.php` | `mutateFormDataBeforeCreate` sets slug from `name` |
+| `app/Filament/Resources/Articles/ArticleResource.php` | Slug `visibleOn('edit')` only |
+| `app/Filament/Resources/Categories/CategoryResource.php` | Slug `visibleOn('edit')` only |
+
+---
+
+## Change 3 — Documentation on this branch
+
+| File | Change |
+|------|--------|
+| `docs/features/maintenance-media.md` | **This file** — full branch changelog (must be updated for every change) |
+| `docs/COMMANDS.md` | Command log entries for media + slug work |
+| `docs/README.md` | Index row for `chore/maintenance` |
+| `docs/ARCHITECTURE.md` | Filament resources mention images |
+
+---
+
+## Full file list vs `master`
+
+```
+.env.example
+app/Filament/Resources/Articles/ArticleResource.php
+app/Filament/Resources/Articles/Pages/CreateArticle.php
+app/Filament/Resources/Categories/CategoryResource.php
+app/Filament/Resources/Categories/Pages/CreateCategory.php
+app/Filament/Resources/HeroSlides/HeroSlideResource.php
+app/Filament/Resources/PopularTopics/PopularTopicResource.php
+app/Support/Slug.php
+composer.json
+composer.lock
+docs/ARCHITECTURE.md
+docs/COMMANDS.md
+docs/README.md
+docs/features/maintenance-media.md
+public/assets/css/styles.css
+resources/views/articles/show.blade.php
+```
+
+---
+
+## Rule for this branch
+
+**Any new code/config/docs change on `chore/maintenance` must be added to this file** (what / why / files / commands) in the same commit or immediately after.
+
+---
+
+## Verify checklist
+
+- [ ] Admin Images uploads work for articles + categories
+- [ ] Article gallery shows on public article page when related images exist
+- [ ] Create article/category: no slug field; slug saved from title/name
+- [ ] Edit: slug visible and editable
+- [ ] Arabic title → Arabic slug (letters preserved)
+- [ ] English title → Latin hyphenated slug
