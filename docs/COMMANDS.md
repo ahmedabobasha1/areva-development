@@ -93,3 +93,15 @@ mkdir -p docs/features scripts
 ## Later features
 
 Commands for `feature/02` … `feature/06` will be appended below as those branches are built.
+
+---
+
+## Workspace path rename (2026-09-04)
+
+```bash
+cd /home/ahmed-abobasha
+mv freelance areva-development
+cd areva-development
+```
+
+Local project path is now `/home/ahmed-abobasha/areva-development` (same name as the GitHub repo). Re-open this folder in Cursor if the IDE still points at `freelance`.
