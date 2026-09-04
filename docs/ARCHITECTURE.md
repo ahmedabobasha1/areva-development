@@ -23,8 +23,11 @@
 
 ## Locales
 
-Public URLs: `/{locale}/...` with `en` and `ar` (started in feature/03; middleware polish in feature/04).  
-HTML `lang` / `dir` set from locale in the Blade layout.
+Public URLs: `/{locale}/...` with locales from `config/areva.php` (`en`, `ar`).  
+`SetLocale` middleware (`locale` alias) sets `app()->setLocale()`.  
+HTML `lang` / `dir` set from locale in the Blade layout.  
+`App\Support\LocaleUrl` builds home/category/article/contact URLs.  
+Models resolve translated slugs with `whereSlug()` (JSON locale columns).
 
 ## SEO
 

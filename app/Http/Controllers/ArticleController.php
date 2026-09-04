@@ -3,24 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
-use App\Models\Category;
+use App\Support\LocaleUrl;
 use Illuminate\View\View;
 
 class ArticleController extends Controller
 {
     public function show(string $locale, string $slug): View
     {
-        app()->setLocale($locale);
-
         $article = Article::query()
             ->published()
             ->with('category')
-            ->get()
-            ->first(fn (Article $article) => $article->getTranslation('slug', $locale) === $slug
-                || $article->getTranslation('slug', 'en') === $slug
-                || $article->getTranslation('slug', 'ar') === $slug);
-
-        abort_if($article === null, 404);
+            ->whereSlug($slug, $locale)
+            ->firstOrFail();
 
         $related = Article::query()
             ->published()
@@ -34,21 +28,20 @@ class ArticleController extends Controller
         return view('articles.show', [
             'article' => $article,
             'related' => $related,
-            'navCategories' => Category::query()->active()->orderBy('sort')->get(),
             'langSwitchUrls' => [
-                'en' => url('/en/blog/'.$article->getTranslation('slug', 'en')),
-                'ar' => url('/ar/blog/'.$article->getTranslation('slug', 'ar')),
+                'en' => LocaleUrl::article($article->getTranslation('slug', 'en'), 'en'),
+                'ar' => LocaleUrl::article($article->getTranslation('slug', 'ar'), 'ar'),
             ],
             'seo' => [
                 'title' => $article->getTranslation('meta_title', $locale) ?: $article->getTranslation('title', $locale),
                 'description' => $article->getTranslation('meta_description', $locale) ?: $article->getTranslation('excerpt', $locale),
-                'canonical' => url('/'.$locale.'/blog/'.$article->getTranslation('slug', $locale)),
+                'canonical' => LocaleUrl::article($article->getTranslation('slug', $locale), $locale),
                 'og_type' => 'article',
                 'og_image' => $article->getFirstMediaUrl('seo') ?: ($article->getFirstMediaUrl('cover') ?: asset('assets/images/hero.jpg')),
                 'hreflang' => [
-                    'en' => url('/en/blog/'.$article->getTranslation('slug', 'en')),
-                    'ar' => url('/ar/blog/'.$article->getTranslation('slug', 'ar')),
-                    'x-default' => url('/en/blog/'.$article->getTranslation('slug', 'en')),
+                    'en' => LocaleUrl::article($article->getTranslation('slug', 'en'), 'en'),
+                    'ar' => LocaleUrl::article($article->getTranslation('slug', 'ar'), 'ar'),
+                    'x-default' => LocaleUrl::article($article->getTranslation('slug', 'en'), 'en'),
                 ],
             ],
         ]);

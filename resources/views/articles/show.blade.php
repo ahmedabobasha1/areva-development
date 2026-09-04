@@ -51,7 +51,7 @@
           <h2 id="article-form-heading">{{ app()->getLocale() === 'ar' ? 'مهتم بعقارات القاهرة الجديدة؟' : 'Interested in this topic?' }}</h2>
           <p>{{ app()->getLocale() === 'ar' ? 'اترك بياناتك وسيتواصل فريقنا معك.' : 'Share your details and our team will help you find the right opportunity.' }}</p>
         </div>
-        <form class="contact-form" action="{{ url('/'.app()->getLocale().'/contact') }}" method="post">
+        <form class="contact-form" action="{{ route('contact.store', ['locale' => app()->getLocale()]) }}" method="post">
           @csrf
           <input type="hidden" name="source_page" value="article:{{ $article->getTranslation('slug', app()->getLocale()) }}">
           <div class="form-row">

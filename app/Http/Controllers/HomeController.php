@@ -7,14 +7,13 @@ use App\Models\Category;
 use App\Models\HeroSlide;
 use App\Models\PopularTopic;
 use App\Models\Setting;
+use App\Support\LocaleUrl;
 use Illuminate\View\View;
 
 class HomeController extends Controller
 {
     public function __invoke(string $locale): View
     {
-        app()->setLocale($locale);
-
         $seoDefaults = Setting::getValue('seo_defaults', []);
 
         return view('home', [
@@ -24,19 +23,18 @@ class HomeController extends Controller
                 ?? Article::query()->published()->with('category')->latest('published_at')->first(),
             'latestArticles' => Article::query()->published()->with('category')->latest('published_at')->take(6)->get(),
             'popularTopics' => PopularTopic::query()->active()->with('category')->orderBy('sort')->get(),
-            'navCategories' => Category::query()->active()->orderBy('sort')->get(),
             'langSwitchUrls' => [
-                'en' => url('/en'),
-                'ar' => url('/ar'),
+                'en' => LocaleUrl::home('en'),
+                'ar' => LocaleUrl::home('ar'),
             ],
             'seo' => [
                 'title' => $seoDefaults['meta_title'][$locale] ?? config('app.name'),
                 'description' => $seoDefaults['meta_description'][$locale] ?? '',
-                'canonical' => url('/'.$locale),
+                'canonical' => LocaleUrl::home($locale),
                 'hreflang' => [
-                    'en' => url('/en'),
-                    'ar' => url('/ar'),
-                    'x-default' => url('/en'),
+                    'en' => LocaleUrl::home('en'),
+                    'ar' => LocaleUrl::home('ar'),
+                    'x-default' => LocaleUrl::home(config('areva.default_locale', 'en')),
                 ],
             ],
         ]);

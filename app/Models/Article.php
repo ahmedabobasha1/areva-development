@@ -96,6 +96,15 @@ class Article extends Model implements HasMedia
         return $query->where('is_trending', true);
     }
 
+    public function scopeWhereSlug(Builder $query, string $slug, ?string $locale = null): Builder
+    {
+        $locales = $locale
+            ? array_values(array_unique([$locale, ...config('areva.locales', ['en', 'ar'])]))
+            : config('areva.locales', ['en', 'ar']);
+
+        return $query->whereJsonContainsLocales('slug', $locales, $slug);
+    }
+
     public function isPublished(): bool
     {
         return $this->status === self::STATUS_PUBLISHED

@@ -239,3 +239,72 @@ php artisan tinker --execute="Illuminate\Support\Facades\DB::table('cache')->tru
 ```
 
 Truncated cache table to drop serialized Setting models
+
+---
+
+## feature/04-public-routes
+
+```bash
+cd /home/ahmed-abobasha/areva-development
+git checkout -b feature/04-public-routes
+```
+
+### Locale config + middleware + URL helper
+
+Created:
+
+- `config/areva.php`
+- `app/Http/Middleware/SetLocale.php`
+- `app/Support/LocaleUrl.php`
+- Registered `locale` alias in `bootstrap/app.php`
+- View composer for `navCategories` in `AppServiceProvider`
+
+### Model slug scopes + route polish
+
+```bash
+# Added Category::whereSlug / Article::whereSlug (Spatie whereJsonContainsLocales)
+# Updated routes/web.php with middleware('locale') + GET contact redirect
+# Controllers no longer call app()->setLocale() manually
+```
+
+### Verify
+
+```bash
+php artisan route:list --columns=method,uri,name,middleware
+php -r '
+require "vendor/autoload.php";
+$app = require "bootstrap/app.php";
+$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+foreach (["/","/en","/en/categories/new-cairo","/en/blog/future-of-modern-living-in-new-cairo","/en/contact","/ar","/xx"] as $uri) {
+  $response = $kernel->handle(Illuminate\Http\Request::create($uri, "GET"));
+  echo $uri." => ".$response->getStatusCode()."\n";
+}
+'
+```
+
+Result: `/` and `/en/contact` redirect; public pages **200**; invalid locale `/xx` → **404**.
+
+### Documentation
+
+```bash
+# wrote docs/features/04-public-routes.md
+# updated docs/ARCHITECTURE.md + docs/COMMANDS.md
+./scripts/append-command-log.sh "feature/04-public-routes" "php artisan route:list" "Verified locale middleware on public routes"
+```
+
+
+### 2026-09-04T15:50:55Z (feature/04-public-routes)
+
+```bash
+git checkout -b feature/04-public-routes
+```
+
+Started public routes / locale middleware feature
+
+### 2026-09-04T15:50:55Z (feature/04-public-routes)
+
+```bash
+php artisan route:list --columns=method,uri,name,middleware
+```
+
+Listed public locale routes with middleware

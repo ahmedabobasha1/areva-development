@@ -53,7 +53,7 @@
           <h2 id="category-form-heading">{{ app()->getLocale() === 'ar' ? 'هل تبحث عن العقار المناسب؟' : 'Looking for the Right Property?' }}</h2>
           <p>{{ app()->getLocale() === 'ar' ? 'شارك بياناتك وسيتواصل معك فريقنا.' : 'Share your details and our team will help you explore opportunities.' }}</p>
         </div>
-        <form class="contact-form" action="{{ url('/'.app()->getLocale().'/contact') }}" method="post">
+        <form class="contact-form" action="{{ route('contact.store', ['locale' => app()->getLocale()]) }}" method="post">
           @csrf
           <input type="hidden" name="source_page" value="category:{{ $category->getTranslation('slug', app()->getLocale()) }}">
           <div class="form-row">

@@ -67,4 +67,13 @@ class Category extends Model implements HasMedia
     {
         return $query->where('is_active', true);
     }
+
+    public function scopeWhereSlug($query, string $slug, ?string $locale = null)
+    {
+        $locales = $locale
+            ? array_values(array_unique([$locale, ...config('areva.locales', ['en', 'ar'])]))
+            : config('areva.locales', ['en', 'ar']);
+
+        return $query->whereJsonContainsLocales('slug', $locales, $slug);
+    }
 }

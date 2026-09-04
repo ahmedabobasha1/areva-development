@@ -155,14 +155,14 @@
     </div>
   </section>
 
-  <section class="contact" aria-labelledby="contact-heading">
+  <section id="contact" class="contact" aria-labelledby="contact-heading">
     <div class="container">
       <div class="contact-info">
         <span class="section-label section-label--after">{{ app()->getLocale() === 'ar' ? 'تواصل معنا' : 'Contact Us' }}</span>
         <h2 id="contact-heading">{{ app()->getLocale() === 'ar' ? 'هل تبحث عن العقار المناسب؟' : 'Looking for the Right Property?' }}</h2>
         <p>{{ app()->getLocale() === 'ar' ? 'شارك بياناتك وسيساعدك فريقنا في استكشاف الفرص المناسبة.' : 'Share your details and our team will help you explore opportunities tailored to your goals.' }}</p>
       </div>
-      <form class="contact-form" action="{{ url('/'.app()->getLocale().'/contact') }}" method="post">
+      <form class="contact-form" action="{{ route('contact.store', ['locale' => app()->getLocale()]) }}" method="post">
         @csrf
         <div class="form-row">
           <label>
