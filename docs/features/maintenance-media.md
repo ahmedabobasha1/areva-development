@@ -9,7 +9,7 @@
 
 | Commit | Message |
 |--------|---------|
-| _(pending)_ | Slug cleaning on edit (title/name + slug field) |
+| `c5c9b77` | Apply slug cleaning on article and category edit screens |
 | `b3386fe` | Format slugs like Str::slug while keeping Arabic letters |
 | `773c5ea` | Finalize maintenance branch changelog with complete history |
 | `d7c0952` | Keep maintenance branch commit table complete |
