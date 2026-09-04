@@ -9,6 +9,7 @@
 
 | Commit | Message |
 |--------|---------|
+| `d7c0952` | Keep maintenance branch commit table complete |
 | `7e1ba98` | Sync commit list in maintenance branch documentation |
 | `bbb032e` | Include latest docs commit in the maintenance branch changelog |
 | `566294f` | Document every chore/maintenance change in the branch doc |
@@ -17,6 +18,8 @@
 | `c84dab2` | Index chore/maintenance in the docs README branch table |
 | `c3ccc16` | Document all chore/maintenance media upload changes |
 | `e08d33a` | Add Filament media uploads for articles and categories |
+
+> When adding new **feature** work, append a new “Change N” section and list the new commit(s). Do not create infinite docs-only commits only to refresh this table.
 
 ---
 
