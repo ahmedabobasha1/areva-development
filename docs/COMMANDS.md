@@ -482,3 +482,22 @@ php artisan storage:link
 ```
 
 Public disk symlink for uploaded media URLs
+
+### Documentation refresh (chore/maintenance)
+
+```bash
+# Expanded docs/features/maintenance-media.md with full file change list
+# Updated docs/README.md branch index
+git add docs/
+git commit -m "Document all chore/maintenance media upload changes."
+git push -u origin chore/maintenance
+```
+
+
+### 2026-09-04T22:30:16Z (chore/maintenance)
+
+```bash
+git commit && git push
+```
+
+Documented full file change list for media uploads on chore/maintenance
