@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\Category;
 use App\Support\LocaleUrl;
+use App\Support\SeoBuilder;
 use Illuminate\View\View;
 
 class CategoryController extends Controller
@@ -29,16 +30,7 @@ class CategoryController extends Controller
                 'en' => LocaleUrl::category($category->getTranslation('slug', 'en'), 'en'),
                 'ar' => LocaleUrl::category($category->getTranslation('slug', 'ar'), 'ar'),
             ],
-            'seo' => [
-                'title' => $category->getTranslation('meta_title', $locale) ?: $category->getTranslation('name', $locale),
-                'description' => $category->getTranslation('meta_description', $locale) ?: $category->getTranslation('description', $locale),
-                'canonical' => LocaleUrl::category($category->getTranslation('slug', $locale), $locale),
-                'hreflang' => [
-                    'en' => LocaleUrl::category($category->getTranslation('slug', 'en'), 'en'),
-                    'ar' => LocaleUrl::category($category->getTranslation('slug', 'ar'), 'ar'),
-                    'x-default' => LocaleUrl::category($category->getTranslation('slug', 'en'), 'en'),
-                ],
-            ],
+            'seo' => SeoBuilder::forCategory($category, $locale),
         ]);
     }
 }

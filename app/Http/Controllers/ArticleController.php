@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Support\LocaleUrl;
+use App\Support\SeoBuilder;
 use Illuminate\View\View;
 
 class ArticleController extends Controller
@@ -32,18 +33,7 @@ class ArticleController extends Controller
                 'en' => LocaleUrl::article($article->getTranslation('slug', 'en'), 'en'),
                 'ar' => LocaleUrl::article($article->getTranslation('slug', 'ar'), 'ar'),
             ],
-            'seo' => [
-                'title' => $article->getTranslation('meta_title', $locale) ?: $article->getTranslation('title', $locale),
-                'description' => $article->getTranslation('meta_description', $locale) ?: $article->getTranslation('excerpt', $locale),
-                'canonical' => LocaleUrl::article($article->getTranslation('slug', $locale), $locale),
-                'og_type' => 'article',
-                'og_image' => $article->getFirstMediaUrl('seo') ?: ($article->getFirstMediaUrl('cover') ?: asset('assets/images/hero.jpg')),
-                'hreflang' => [
-                    'en' => LocaleUrl::article($article->getTranslation('slug', 'en'), 'en'),
-                    'ar' => LocaleUrl::article($article->getTranslation('slug', 'ar'), 'ar'),
-                    'x-default' => LocaleUrl::article($article->getTranslation('slug', 'en'), 'en'),
-                ],
-            ],
+            'seo' => SeoBuilder::forArticle($article, $locale),
         ]);
     }
 }

@@ -383,3 +383,65 @@ php artisan filament:optimize-clear
 ```
 
 Cleared Filament component cache after resources
+
+---
+
+## feature/06-seo
+
+```bash
+cd /home/ahmed-abobasha/areva-development
+git checkout -b feature/06-seo
+```
+
+### SeoBuilder + dynamic sitemap/robots
+
+Created:
+
+- `app/Support/SeoBuilder.php`
+- `app/Http/Controllers/SitemapController.php`
+- `app/Http/Controllers/RobotsController.php`
+- `resources/views/seo/sitemap.blade.php`
+- Routes `/sitemap.xml` and `/robots.txt`
+- Removed `public/robots.txt` (static file would bypass the route)
+
+Updated `HomeController`, `CategoryController`, `ArticleController` to use `SeoBuilder`.
+
+### Verify
+
+```bash
+php -r '
+require "vendor/autoload.php";
+$app = require "bootstrap/app.php";
+$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+foreach (["/robots.txt","/sitemap.xml","/en"] as $uri) {
+  echo $uri." => ".$kernel->handle(Illuminate\Http\Request::create($uri,"GET"))->getStatusCode()."\n";
+}
+'
+```
+
+Result: **200** for robots, sitemap, and home with canonical/hreflang/JSON-LD present.
+
+### Documentation
+
+```bash
+# wrote docs/features/06-seo.md
+# updated docs/ARCHITECTURE.md + docs/COMMANDS.md
+./scripts/append-command-log.sh "feature/06-seo" "git checkout -b feature/06-seo" "Started SEO builder / sitemap / robots feature"
+```
+
+
+### 2026-09-04T16:02:58Z (feature/06-seo)
+
+```bash
+git checkout -b feature/06-seo
+```
+
+Started SEO builder / sitemap / robots feature
+
+### 2026-09-04T16:02:58Z (feature/06-seo)
+
+```bash
+rm public/robots.txt
+```
+
+Removed static robots so Laravel route serves dynamic robots.txt

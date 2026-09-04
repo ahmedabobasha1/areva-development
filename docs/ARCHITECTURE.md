@@ -31,8 +31,9 @@ Models resolve translated slugs with `whereSlug()` (JSON locale columns).
 
 ## SEO
 
-Basic meta/canonical/hreflang in `partials/seo.blade.php` (feature/03).  
-Planned `SeoBuilder`, sitemap, robots (feature/06).
+`App\Support\SeoBuilder` builds page SEO (meta/OG/hreflang/JSON-LD/robots).  
+`partials/seo.blade.php` renders tags.  
+Dynamic routes: `/sitemap.xml`, `/robots.txt` (indexable published content only).
 
 ## Public Blade (feature/03)
 

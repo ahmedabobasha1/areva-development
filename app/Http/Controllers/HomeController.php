@@ -6,16 +6,14 @@ use App\Models\Article;
 use App\Models\Category;
 use App\Models\HeroSlide;
 use App\Models\PopularTopic;
-use App\Models\Setting;
 use App\Support\LocaleUrl;
+use App\Support\SeoBuilder;
 use Illuminate\View\View;
 
 class HomeController extends Controller
 {
     public function __invoke(string $locale): View
     {
-        $seoDefaults = Setting::getValue('seo_defaults', []);
-
         return view('home', [
             'heroSlides' => HeroSlide::query()->active()->with('article')->orderBy('sort')->get(),
             'categories' => Category::query()->active()->orderBy('sort')->get(),
@@ -27,16 +25,7 @@ class HomeController extends Controller
                 'en' => LocaleUrl::home('en'),
                 'ar' => LocaleUrl::home('ar'),
             ],
-            'seo' => [
-                'title' => $seoDefaults['meta_title'][$locale] ?? config('app.name'),
-                'description' => $seoDefaults['meta_description'][$locale] ?? '',
-                'canonical' => LocaleUrl::home($locale),
-                'hreflang' => [
-                    'en' => LocaleUrl::home('en'),
-                    'ar' => LocaleUrl::home('ar'),
-                    'x-default' => LocaleUrl::home(config('areva.default_locale', 'en')),
-                ],
-            ],
+            'seo' => SeoBuilder::forHome($locale),
         ]);
     }
 }
