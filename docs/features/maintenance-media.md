@@ -9,6 +9,7 @@
 
 | Commit | Message |
 |--------|---------|
+| `7e1ba98` | Sync commit list in maintenance branch documentation |
 | `bbb032e` | Include latest docs commit in the maintenance branch changelog |
 | `566294f` | Document every chore/maintenance change in the branch doc |
 | `ebd4e6c` | Keep Arabic letters in auto-generated slugs |
