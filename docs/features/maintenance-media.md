@@ -9,6 +9,7 @@
 
 | Commit | Message |
 |--------|---------|
+| `566294f` | Document every chore/maintenance change in the branch doc |
 | `ebd4e6c` | Keep Arabic letters in auto-generated slugs |
 | `1ebb482` | Auto-generate article and category slugs on create |
 | `c84dab2` | Index chore/maintenance in the docs README branch table |
