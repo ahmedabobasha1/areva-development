@@ -14,6 +14,7 @@ use Filament\Actions\EditAction;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -22,6 +23,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
@@ -86,6 +88,37 @@ class ArticleResource extends Resource
                         Toggle::make('is_featured')->default(false),
                         Toggle::make('is_trending')->default(false),
                     ]),
+                Section::make('Images')
+                    ->description('Main cover image, related gallery images, and optional SEO/OG image.')
+                    ->schema([
+                        SpatieMediaLibraryFileUpload::make('cover')
+                            ->label('Main image')
+                            ->collection('cover')
+                            ->image()
+                            ->imageEditor()
+                            ->downloadable()
+                            ->openable()
+                            ->maxSize(5120)
+                            ->helperText('Primary blog image used on cards, hero, and article page.'),
+                        SpatieMediaLibraryFileUpload::make('gallery')
+                            ->label('Related images')
+                            ->collection('gallery')
+                            ->multiple()
+                            ->reorderable()
+                            ->image()
+                            ->downloadable()
+                            ->openable()
+                            ->maxSize(5120)
+                            ->helperText('Extra photos shown in the article gallery.'),
+                        SpatieMediaLibraryFileUpload::make('seo_image')
+                            ->label('SEO / OG image')
+                            ->collection('seo')
+                            ->image()
+                            ->downloadable()
+                            ->openable()
+                            ->maxSize(5120)
+                            ->helperText('Optional. Falls back to the main image when empty.'),
+                    ]),
                 ...SeoFields::make(),
             ]);
     }
@@ -96,6 +129,10 @@ class ArticleResource extends Resource
             ->recordTitleAttribute('title')
             ->defaultSort('published_at', 'desc')
             ->columns([
+                SpatieMediaLibraryImageColumn::make('cover')
+                    ->collection('cover')
+                    ->circular(false)
+                    ->square(),
                 TextColumn::make('title')->searchable()->limit(40),
                 TextColumn::make('category.name')->toggleable(),
                 TextColumn::make('status')->badge(),

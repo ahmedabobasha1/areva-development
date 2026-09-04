@@ -11,6 +11,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -19,6 +20,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -51,6 +53,15 @@ class PopularTopicResource extends Resource
                             ->preload(),
                         TextInput::make('sort')->numeric()->default(0)->required(),
                         Toggle::make('is_active')->default(true)->required(),
+                        SpatieMediaLibraryFileUpload::make('image')
+                            ->label('Main image')
+                            ->collection('image')
+                            ->image()
+                            ->imageEditor()
+                            ->downloadable()
+                            ->openable()
+                            ->maxSize(5120)
+                            ->columnSpanFull(),
                     ]),
             ]);
     }
@@ -61,6 +72,7 @@ class PopularTopicResource extends Resource
             ->recordTitleAttribute('title')
             ->defaultSort('sort')
             ->columns([
+                SpatieMediaLibraryImageColumn::make('image')->collection('image')->square(),
                 TextColumn::make('title')->searchable(),
                 TextColumn::make('category.name')->toggleable(),
                 TextColumn::make('sort')->sortable(),

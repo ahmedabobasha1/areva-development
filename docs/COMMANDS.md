@@ -445,3 +445,40 @@ rm public/robots.txt
 ```
 
 Removed static robots so Laravel route serves dynamic robots.txt
+
+---
+
+## chore/maintenance — media uploads
+
+```bash
+cd /home/ahmed-abobasha/areva-development
+git checkout -b chore/maintenance
+composer require filament/spatie-laravel-media-library-plugin:"^5.0" -W --no-interaction
+php artisan storage:link
+# FILESYSTEM_DISK=public in .env
+```
+
+Added Filament `SpatieMediaLibraryFileUpload` fields:
+
+- Articles: `cover` (main), `gallery` (related), `seo`
+- Categories: `hero` (main), `seo`
+- Hero slides / Popular topics: `image`
+
+Public article view shows gallery images from the `gallery` collection.
+
+
+### 2026-09-04T22:24:41Z (chore/maintenance)
+
+```bash
+composer require filament/spatie-laravel-media-library-plugin:"^5.0" -W
+```
+
+Filament admin image uploads via Spatie Media Library
+
+### 2026-09-04T22:24:41Z (chore/maintenance)
+
+```bash
+php artisan storage:link
+```
+
+Public disk symlink for uploaded media URLs

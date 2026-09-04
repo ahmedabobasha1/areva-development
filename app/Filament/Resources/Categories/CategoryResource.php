@@ -11,6 +11,7 @@ use BackedEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -19,6 +20,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
@@ -68,6 +70,26 @@ class CategoryResource extends Resource
                             ->default(true)
                             ->required(),
                     ]),
+                Section::make('Images')
+                    ->description('Main category image shown on the category page and home cards.')
+                    ->schema([
+                        SpatieMediaLibraryFileUpload::make('hero')
+                            ->label('Main image')
+                            ->collection('hero')
+                            ->image()
+                            ->imageEditor()
+                            ->downloadable()
+                            ->openable()
+                            ->maxSize(5120),
+                        SpatieMediaLibraryFileUpload::make('seo_image')
+                            ->label('SEO / OG image')
+                            ->collection('seo')
+                            ->image()
+                            ->downloadable()
+                            ->openable()
+                            ->maxSize(5120)
+                            ->helperText('Optional. Falls back to the main image when empty.'),
+                    ]),
                 ...SeoFields::make(),
             ]);
     }
@@ -78,6 +100,10 @@ class CategoryResource extends Resource
             ->recordTitleAttribute('name')
             ->defaultSort('sort')
             ->columns([
+                SpatieMediaLibraryImageColumn::make('hero')
+                    ->collection('hero')
+                    ->circular(false)
+                    ->square(),
                 TextColumn::make('name')->searchable()->sortable(),
                 TextColumn::make('slug')->toggleable(),
                 TextColumn::make('sort')->sortable(),
