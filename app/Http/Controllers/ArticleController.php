@@ -9,14 +9,8 @@ use Illuminate\View\View;
 
 class ArticleController extends Controller
 {
-    public function show(string $locale, string $slug): View
+    public function show(string $locale, Article $article): View
     {
-        $article = Article::query()
-            ->published()
-            ->with('category')
-            ->whereSlug($slug, $locale)
-            ->firstOrFail();
-
         $related = Article::query()
             ->published()
             ->with('category')
