@@ -3,6 +3,7 @@
 | Doc | Purpose |
 |-----|---------|
 | [SETUP.md](SETUP.md) | Install, MySQL, migrate, run server, Filament login |
+| [LARAVEL_CLOUD.md](LARAVEL_CLOUD.md) | Deploy Areva to Laravel Cloud (env, build, media, smoke tests) |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | App structure, models, locales, SEO (grows with features) |
 | [COMMANDS.md](COMMANDS.md) | Log of every significant command/script run during the build |
 | [features/](features/) | Per-feature branch notes |
