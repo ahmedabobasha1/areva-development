@@ -144,7 +144,9 @@ class ArticleResource extends Resource
                                             ->default(5)
                                             ->required(),
                                         Toggle::make('is_featured')->default(false),
-                                        Toggle::make('is_trending')->default(false),
+                                        Toggle::make('is_trending')
+                                            ->label('Popular topic (home)')
+                                            ->default(false),
                                     ]),
                             ]),
                     ]),
@@ -166,7 +168,9 @@ class ArticleResource extends Resource
                 TextColumn::make('status')->badge(),
                 TextColumn::make('published_at')->dateTime()->sortable(),
                 IconColumn::make('is_featured')->boolean(),
-                IconColumn::make('is_trending')->boolean(),
+                IconColumn::make('is_trending')
+                    ->label('Popular')
+                    ->boolean(),
                 IconColumn::make('robots_index')->boolean()->toggleable(isToggledHiddenByDefault: true),
             ])
             ->recordActions([

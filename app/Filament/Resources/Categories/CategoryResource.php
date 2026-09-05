@@ -12,6 +12,7 @@ use BackedEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -108,6 +109,28 @@ class CategoryResource extends Resource
                                 Section::make()
                                     ->columns(2)
                                     ->schema([
+                                        Select::make('parent_id')
+                                            ->label('Parent category')
+                                            ->relationship(
+                                                name: 'parent',
+                                                titleAttribute: 'name',
+                                                modifyQueryUsing: function ($query, ?Category $record = null) {
+                                                    if (! $record instanceof Category || ! $record->exists) {
+                                                        return $query;
+                                                    }
+
+                                                    $invalidIds = $record->invalidParentIds();
+
+                                                    if ($invalidIds->isEmpty()) {
+                                                        return $query;
+                                                    }
+
+                                                    return $query->whereNotIn('id', $invalidIds);
+                                                },
+                                            )
+                                            ->searchable()
+                                            ->preload()
+                                            ->nullable(),
                                         TextInput::make('sort')
                                             ->numeric()
                                             ->default(0)
@@ -132,6 +155,10 @@ class CategoryResource extends Resource
                     ->circular(false)
                     ->square(),
                 TextColumn::make('name')->searchable()->sortable(),
+                TextColumn::make('parent.name')
+                    ->label('Parent')
+                    ->placeholder('—')
+                    ->toggleable(),
                 TextColumn::make('slug')->toggleable(),
                 TextColumn::make('sort')->sortable(),
                 IconColumn::make('is_active')->boolean(),

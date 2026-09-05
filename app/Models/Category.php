@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Translatable\HasTranslations;
@@ -14,6 +17,7 @@ class Category extends Model implements HasMedia
     use InteractsWithMedia;
 
     protected $fillable = [
+        'parent_id',
         'name',
         'slug',
         'description',
@@ -47,14 +51,19 @@ class Category extends Model implements HasMedia
         ];
     }
 
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(self::class, 'parent_id');
+    }
+
+    public function children(): HasMany
+    {
+        return $this->hasMany(self::class, 'parent_id')->orderBy('sort');
+    }
+
     public function articles(): HasMany
     {
         return $this->hasMany(Article::class);
-    }
-
-    public function popularTopics(): HasMany
-    {
-        return $this->hasMany(PopularTopic::class);
     }
 
     public function registerMediaCollections(): void
@@ -63,12 +72,17 @@ class Category extends Model implements HasMedia
         $this->addMediaCollection('seo')->singleFile();
     }
 
-    public function scopeActive($query)
+    public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
     }
 
-    public function scopeWhereSlug($query, string $slug, ?string $locale = null)
+    public function scopeRoots(Builder $query): Builder
+    {
+        return $query->whereNull('parent_id');
+    }
+
+    public function scopeWhereSlug(Builder $query, string $slug, ?string $locale = null): Builder
     {
         $locales = $locale
             ? array_values(array_unique([$locale, ...config('areva.locales', ['en', 'ar'])]))

@@ -14,12 +14,14 @@ class CategoryController extends Controller
     {
         $articles = Article::query()
             ->published()
-            ->where('category_id', $category->id)
+            ->whereIn('category_id', $category->selfAndDescendantIds())
+            ->with('category')
             ->latest('published_at')
             ->get();
 
         return view('categories.show', [
             'category' => $category,
+            'children' => $category->children,
             'articles' => $articles,
             'langSwitchUrls' => [
                 'en' => LocaleUrl::category($category->getTranslation('slug', 'en'), 'en'),

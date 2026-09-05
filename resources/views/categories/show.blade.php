@@ -8,7 +8,14 @@
     <div class="container">
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
-          <li><a href="{{ url('/'.app()->getLocale()) }}">Home</a></li>
+          <li><a href="{{ url('/'.app()->getLocale()) }}">{{ app()->getLocale() === 'ar' ? 'الرئيسية' : 'Home' }}</a></li>
+          @if($category->parent)
+            <li>
+              <a href="{{ \App\Support\LocaleUrl::category($category->parent->getTranslation('slug', app()->getLocale())) }}">
+                {{ $category->parent->getTranslation('name', app()->getLocale()) }}
+              </a>
+            </li>
+          @endif
           <li><span aria-current="page">{{ $category->getTranslation('name', app()->getLocale()) }}</span></li>
         </ol>
       </nav>
@@ -25,6 +32,58 @@
     </div>
   </section>
 
+  @if($children->isNotEmpty())
+    <section class="categories" aria-labelledby="subcategories-heading">
+      <div class="container">
+        <div class="categories-carousel" data-cat-slider>
+          <div class="categories-header">
+            <div>
+              <span class="section-label section-label--after">{{ app()->getLocale() === 'ar' ? 'تصنيفات فرعية' : 'Subcategories' }}</span>
+              <h2 id="subcategories-heading" class="section-title">{{ app()->getLocale() === 'ar' ? 'تصفح التصنيفات الفرعية' : 'Browse Subcategories' }}</h2>
+            </div>
+            <div class="categories-controls" data-cat-controls hidden>
+              <button type="button" class="cat-slider-btn" data-cat-prev aria-label="{{ app()->getLocale() === 'ar' ? 'السابق' : 'Previous' }}">
+                <span aria-hidden="true">‹</span>
+              </button>
+              <button type="button" class="cat-slider-btn" data-cat-next aria-label="{{ app()->getLocale() === 'ar' ? 'التالي' : 'Next' }}">
+                <span aria-hidden="true">›</span>
+              </button>
+            </div>
+          </div>
+          <div class="categories-slider">
+            <div class="categories-track">
+              @php
+                $categoryFallbacks = [
+                    'assets/images/city-skyline.jpg',
+                    'assets/images/villa-modern.jpg',
+                    'assets/images/villa-pool.jpg',
+                    'assets/images/villa-glass.jpg',
+                    'assets/images/villa-resort.jpg',
+                    'assets/images/hero.jpg',
+                ];
+              @endphp
+              @foreach($children as $child)
+                @php
+                  $heroUrl = $child->getFirstMediaUrl('hero');
+                  if (! $heroUrl) {
+                      $heroUrl = asset($categoryFallbacks[$loop->index % count($categoryFallbacks)]);
+                  }
+                @endphp
+                <a href="{{ \App\Support\LocaleUrl::category($child->getTranslation('slug', app()->getLocale())) }}" class="category-card">
+                  <img src="{{ $heroUrl }}" alt="{{ $child->getTranslation('name', app()->getLocale()) }}" width="320" height="420" loading="lazy">
+                  <div class="category-overlay">
+                    <h3>{{ $child->getTranslation('name', app()->getLocale()) }}</h3>
+                    <span class="explore-link">{{ app()->getLocale() === 'ar' ? 'استكشف' : 'Explore' }}</span>
+                  </div>
+                </a>
+              @endforeach
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  @endif
+
   <section class="category-articles" aria-label="Category articles">
     <div class="container">
       <div class="cat-articles-grid">
@@ -32,7 +91,7 @@
           <a href="{{ url('/'.app()->getLocale().'/blog/'.$article->getTranslation('slug', app()->getLocale())) }}" class="cat-article-card">
             <img src="{{ $article->getFirstMediaUrl('cover') ?: asset('assets/images/villa-pool.jpg') }}" alt="{{ $article->getTranslation('title', app()->getLocale()) }}" width="380" height="220" loading="lazy">
             <div class="cat-article-body">
-              <span class="card-category">{{ $category->getTranslation('name', app()->getLocale()) }}</span>
+              <span class="card-category">{{ $article->category?->getTranslation('name', app()->getLocale()) ?? $category->getTranslation('name', app()->getLocale()) }}</span>
               <h2 class="card-title">{{ $article->getTranslation('title', app()->getLocale()) }}</h2>
               <p class="card-meta">{{ optional($article->published_at)->format('M j, Y') }} &middot; {{ $article->read_time_minutes }} min read</p>
               <p class="card-excerpt">{{ $article->getTranslation('excerpt', app()->getLocale()) }}</p>
