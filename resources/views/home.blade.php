@@ -130,20 +130,28 @@
 
   <section class="popular-topics" aria-labelledby="topics-heading">
     <div class="container">
-      <span class="section-label">{{ app()->getLocale() === 'ar' ? 'مواضيع شائعة' : 'Explore Popular Topics' }}</span>
-      <h2 id="topics-heading" class="section-title">{{ app()->getLocale() === 'ar' ? 'استكشف المواضيع الشائعة' : 'Explore Popular Topics' }}</h2>
+      <header class="popular-topics-header">
+        <span class="section-label">{{ app()->getLocale() === 'ar' ? 'مواضيع شائعة' : 'Explore Popular Topics' }}</span>
+        <h2 id="topics-heading" class="section-title">{{ app()->getLocale() === 'ar' ? 'استكشف المواضيع الشائعة' : 'Explore Popular Topics' }}</h2>
+      </header>
       <div class="topics-grid">
         @foreach($popularTopics as $topic)
-          <article class="topic-card">
-            <div class="topic-body">
+          <a href="{{ \App\Support\LocaleUrl::article($topic->getTranslation('slug', app()->getLocale())) }}" class="topic-card">
+            <div class="topic-content">
+              <span class="topic-number" aria-hidden="true">{{ str_pad((string) ($loop->iteration), 2, '0', STR_PAD_LEFT) }}</span>
               <h3>{{ $topic->getTranslation('title', app()->getLocale()) }}</h3>
-              <p>{{ $topic->getTranslation('excerpt', app()->getLocale()) }}</p>
-              <a href="{{ \App\Support\LocaleUrl::article($topic->getTranslation('slug', app()->getLocale())) }}" class="explore-link">
+              @if(filled($topic->getTranslation('excerpt', app()->getLocale())))
+                <p>{{ $topic->getTranslation('excerpt', app()->getLocale()) }}</p>
+              @endif
+              <span class="explore-link">
                 {{ app()->getLocale() === 'ar' ? 'استكشف' : 'Explore' }}
-              </a>
+                <span aria-hidden="true">→</span>
+              </span>
             </div>
-            <img class="topic-img" src="{{ $topic->getFirstMediaUrl('cover') ?: asset('assets/images/villa-modern.jpg') }}" alt="{{ $topic->getTranslation('title', app()->getLocale()) }}" width="380" height="240" loading="lazy">
-          </article>
+            <div class="topic-media">
+              <img src="{{ $topic->getFirstMediaUrl('cover') ?: asset('assets/images/villa-modern.jpg') }}" alt="" width="380" height="240" loading="lazy">
+            </div>
+          </a>
         @endforeach
       </div>
     </div>
