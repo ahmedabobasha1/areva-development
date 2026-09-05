@@ -39,6 +39,16 @@
           @endif
           {!! $article->getTranslation('body', app()->getLocale()) !!}
         </div>
+        @php($gallery = $article->getMedia('gallery'))
+        @if($gallery->isNotEmpty())
+          <div class="article-gallery" aria-label="{{ app()->getLocale() === 'ar' ? 'صور ذات صلة' : 'Related images' }}">
+            @foreach($gallery as $media)
+              <figure class="article-gallery-item">
+                <img src="{{ $media->getUrl() }}" alt="{{ $media->name ?: $article->getTranslation('title', app()->getLocale()) }}" width="520" height="360" loading="lazy">
+              </figure>
+            @endforeach
+          </div>
+        @endif
       </div>
     </div>
   </article>

@@ -52,10 +52,10 @@ Panel path: `/admin` with `ezappslab/filament-translatable` locale switcher (EN/
 
 | Resource | Group | Notes |
 |----------|-------|-------|
-| Categories | Content | Translatable + SEO section |
-| Articles | Content | Translatable + RichEditor + SEO |
-| Hero slides | Home | Translatable titles/CTAs |
-| Popular topics | Home | Translatable |
+| Categories | Content | Translatable + SEO + main/SEO images |
+| Articles | Content | Translatable + RichEditor + SEO + cover/gallery/SEO images |
+| Hero slides | Home | Translatable titles/CTAs + main image |
+| Popular topics | Home | Translatable + main image |
 | Contact messages | Inbox | Read-only create; mark read on open |
 | Settings | System | JSON `value` editor |
 

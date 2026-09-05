@@ -445,3 +445,108 @@ rm public/robots.txt
 ```
 
 Removed static robots so Laravel route serves dynamic robots.txt
+
+---
+
+## chore/maintenance — media uploads
+
+```bash
+cd /home/ahmed-abobasha/areva-development
+git checkout -b chore/maintenance
+composer require filament/spatie-laravel-media-library-plugin:"^5.0" -W --no-interaction
+php artisan storage:link
+# FILESYSTEM_DISK=public in .env
+```
+
+Added Filament `SpatieMediaLibraryFileUpload` fields:
+
+- Articles: `cover` (main), `gallery` (related), `seo`
+- Categories: `hero` (main), `seo`
+- Hero slides / Popular topics: `image`
+
+Public article view shows gallery images from the `gallery` collection.
+
+
+### 2026-09-04T22:24:41Z (chore/maintenance)
+
+```bash
+composer require filament/spatie-laravel-media-library-plugin:"^5.0" -W
+```
+
+Filament admin image uploads via Spatie Media Library
+
+### 2026-09-04T22:24:41Z (chore/maintenance)
+
+```bash
+php artisan storage:link
+```
+
+Public disk symlink for uploaded media URLs
+
+### Documentation refresh (chore/maintenance)
+
+```bash
+# Expanded docs/features/maintenance-media.md with full file change list
+# Updated docs/README.md branch index
+git add docs/
+git commit -m "Document all chore/maintenance media upload changes."
+git push -u origin chore/maintenance
+```
+
+
+### 2026-09-04T22:30:16Z (chore/maintenance)
+
+```bash
+git commit && git push
+```
+
+Documented full file change list for media uploads on chore/maintenance
+
+### Slug auto-generation (chore/maintenance)
+
+```bash
+# Added app/Support/Slug.php
+# CreateArticle / CreateCategory: mutateFormDataBeforeCreate generates slug
+# Article + Category forms: slug visibleOn('edit') only
+```
+
+
+### 2026-09-04T22:40:12Z (chore/maintenance)
+
+```bash
+slug auto from title/name on create
+```
+
+Slug hidden on create; editable on edit for articles and categories
+
+### 2026-09-04T22:45:20Z (chore/maintenance)
+
+```bash
+update App\Support\Slug to keep Arabic letters
+```
+
+Arabic titles now produce Arabic URL slugs instead of Latin transliteration
+
+### 2026-09-04T22:50:46Z (chore/maintenance)
+
+```bash
+rewrite docs/features/maintenance-media.md
+```
+
+Full branch changelog: every commit, media + slug + Arabic letters + file list
+
+### 2026-09-04T22:56:03Z (chore/maintenance)
+
+```bash
+improve App\Support\Slug like Str::slug
+```
+
+Spaces/special chars → hyphens; ASCII uses Str::slug; Arabic letters kept
+
+### 2026-09-04T23:01:57Z (chore/maintenance)
+
+```bash
+slug cleaning on edit pages
+```
+
+EditArticle/EditCategory + form blur: Slug::from on title/name and slug
