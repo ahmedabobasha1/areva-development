@@ -10,17 +10,8 @@ use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
-    public function show(string $locale, string $slug): View
+    public function show(string $locale, Category $category): View
     {
-        $category = Category::query()
-            ->active()
-            ->whereSlug($slug, $locale)
-            ->with([
-                'parent',
-                'children' => fn ($query) => $query->active()->orderBy('sort'),
-            ])
-            ->firstOrFail();
-
         $articles = Article::query()
             ->published()
             ->whereIn('category_id', $category->selfAndDescendantIds())

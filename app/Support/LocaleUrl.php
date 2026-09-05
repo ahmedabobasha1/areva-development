@@ -6,21 +6,23 @@ class LocaleUrl
 {
     public static function home(?string $locale = null): string
     {
-        return url('/'.($locale ?? app()->getLocale()));
+        return route('home', ['locale' => $locale ?? app()->getLocale()]);
     }
 
     public static function category(string $slug, ?string $locale = null): string
     {
-        $locale ??= app()->getLocale();
-
-        return url('/'.$locale.'/categories/'.$slug);
+        return route('categories.show', [
+            'locale' => $locale ?? app()->getLocale(),
+            'category' => $slug,
+        ]);
     }
 
     public static function article(string $slug, ?string $locale = null): string
     {
-        $locale ??= app()->getLocale();
-
-        return url('/'.$locale.'/blog/'.$slug);
+        return route('articles.show', [
+            'locale' => $locale ?? app()->getLocale(),
+            'article' => $slug,
+        ]);
     }
 
     public static function contact(?string $locale = null): string

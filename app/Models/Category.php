@@ -91,57 +91,25 @@ class Category extends Model implements HasMedia
         return $query->whereJsonContainsLocales('slug', $locales, $slug);
     }
 
-    /**
-     * @return list<int>
-     */
-    public function descendantIds(): array
+    public function getRouteKeyName(): string
     {
-        if (! $this->exists || $this->id === null) {
-            return [];
-        }
-
-        $ids = [];
-        $frontier = self::query()
-            ->where('parent_id', $this->id)
-            ->pluck('id')
-            ->all();
-
-        while ($frontier !== []) {
-            array_push($ids, ...$frontier);
-            $frontier = self::query()
-                ->whereIn('parent_id', $frontier)
-                ->pluck('id')
-                ->all();
-        }
-
-        return $ids;
+        return 'slug';
     }
 
-    /**
-     * This category id plus all descendant ids.
-     *
-     * @return list<int>
-     */
-    public function selfAndDescendantIds(): array
+    public function getRouteKey(): mixed
     {
-        if (! $this->exists || $this->id === null) {
-            return [];
-        }
+        $locale = request()->route('locale') ?? app()->getLocale();
 
-        return [$this->id, ...$this->descendantIds()];
+        return $this->getTranslation('slug', $locale)
+            ?: $this->getTranslation('slug', config('areva.default_locale', 'en'));
     }
 
-    /**
-     * Categories that would create a cycle if chosen as parent of this record.
-     *
-     * @return Collection<int, int>
-     */
-    public function invalidParentIds(): Collection
+    public function resolveRouteBinding($value, $field = null): ?Model
     {
-        if (! $this->exists || $this->id === null) {
-            return collect();
-        }
+        $locale = request()->route('locale') ?? app()->getLocale();
 
-        return collect([$this->id, ...$this->descendantIds()]);
+        return $this->whereSlug((string) $value, $locale)
+            ->active()
+            ->first();
     }
 }

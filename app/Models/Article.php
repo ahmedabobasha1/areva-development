@@ -105,6 +105,29 @@ class Article extends Model implements HasMedia
         return $query->whereJsonContainsLocales('slug', $locales, $slug);
     }
 
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
+    public function getRouteKey(): mixed
+    {
+        $locale = request()->route('locale') ?? app()->getLocale();
+
+        return $this->getTranslation('slug', $locale)
+            ?: $this->getTranslation('slug', config('areva.default_locale', 'en'));
+    }
+
+    public function resolveRouteBinding($value, $field = null): ?Model
+    {
+        $locale = request()->route('locale') ?? app()->getLocale();
+
+        return $this->whereSlug((string) $value, $locale)
+            ->published()
+            ->with('category')
+            ->first();
+    }
+
     public function isPublished(): bool
     {
         return $this->status === self::STATUS_PUBLISHED
