@@ -138,17 +138,11 @@
             <div class="topic-body">
               <h3>{{ $topic->getTranslation('title', app()->getLocale()) }}</h3>
               <p>{{ $topic->getTranslation('excerpt', app()->getLocale()) }}</p>
-              @php
-                $topicUrl = $topic->cta_url;
-                if (! $topicUrl && $topic->category) {
-                    $topicUrl = url('/'.app()->getLocale().'/categories/'.$topic->category->getTranslation('slug', app()->getLocale()));
-                }
-              @endphp
-              @if($topicUrl)
-                <a href="{{ $topicUrl }}" class="explore-link">{{ $topic->getTranslation('cta_label', app()->getLocale()) ?: 'Explore' }}</a>
-              @endif
+              <a href="{{ \App\Support\LocaleUrl::article($topic->getTranslation('slug', app()->getLocale())) }}" class="explore-link">
+                {{ app()->getLocale() === 'ar' ? 'استكشف' : 'Explore' }}
+              </a>
             </div>
-            <img class="topic-img" src="{{ $topic->getFirstMediaUrl('image') ?: asset('assets/images/villa-modern.jpg') }}" alt="{{ $topic->getTranslation('title', app()->getLocale()) }}" width="380" height="240" loading="lazy">
+            <img class="topic-img" src="{{ $topic->getFirstMediaUrl('cover') ?: asset('assets/images/villa-modern.jpg') }}" alt="{{ $topic->getTranslation('title', app()->getLocale()) }}" width="380" height="240" loading="lazy">
           </article>
         @endforeach
       </div>

@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\HeroSlide;
-use App\Models\PopularTopic;
 use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -146,27 +145,6 @@ class DatabaseSeeder extends Seeder
                 ],
                 'cta_url' => null,
                 'article_id' => $article->id,
-                'is_active' => true,
-                'sort' => 1,
-            ],
-        );
-
-        PopularTopic::query()->updateOrCreate(
-            ['sort' => 1],
-            [
-                'title' => [
-                    'en' => 'Best Compounds in New Cairo',
-                    'ar' => 'أفضل الكمبوندات في القاهرة الجديدة',
-                ],
-                'excerpt' => [
-                    'en' => 'Explore family-friendly communities and lifestyle amenities.',
-                    'ar' => 'استكشف المجتمعات العائلية ومرافق أسلوب الحياة.',
-                ],
-                'cta_label' => [
-                    'en' => 'Explore',
-                    'ar' => 'استكشف',
-                ],
-                'category_id' => $newCairo->id,
                 'is_active' => true,
                 'sort' => 1,
             ],

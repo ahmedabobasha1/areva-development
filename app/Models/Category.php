@@ -52,11 +52,6 @@ class Category extends Model implements HasMedia
         return $this->hasMany(Article::class);
     }
 
-    public function popularTopics(): HasMany
-    {
-        return $this->hasMany(PopularTopic::class);
-    }
-
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('hero')->singleFile();
