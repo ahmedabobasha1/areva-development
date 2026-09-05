@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
                     'ar' => 'أخبار وتحليلات واتجاهات سوق العقارات في مصر.',
                 ],
                 'sort' => 1,
+                'parent_slug' => null,
             ],
             [
                 'name' => ['en' => 'New Cairo', 'ar' => 'القاهرة الجديدة'],
@@ -40,6 +41,7 @@ class DatabaseSeeder extends Seeder
                     'ar' => 'أدلة السكن والشراء والاستثمار في القاهرة الجديدة.',
                 ],
                 'sort' => 2,
+                'parent_slug' => 'real-estate',
             ],
             [
                 'name' => ['en' => 'New Capital', 'ar' => 'العاصمة الإدارية'],
@@ -49,6 +51,7 @@ class DatabaseSeeder extends Seeder
                     'ar' => 'مشروعات وفرص في العاصمة الإدارية الجديدة.',
                 ],
                 'sort' => 3,
+                'parent_slug' => 'real-estate',
             ],
             [
                 'name' => ['en' => 'Investment', 'ar' => 'استثمار'],
@@ -58,6 +61,7 @@ class DatabaseSeeder extends Seeder
                     'ar' => 'استراتيجيات وعوائد الاستثمار العقاري في مصر.',
                 ],
                 'sort' => 4,
+                'parent_slug' => null,
             ],
             [
                 'name' => ['en' => 'Guides', 'ar' => 'أدلة'],
@@ -67,6 +71,7 @@ class DatabaseSeeder extends Seeder
                     'ar' => 'أدلة عملية خطوة بخطوة لشراء وبيع العقارات.',
                 ],
                 'sort' => 5,
+                'parent_slug' => null,
             ],
         ];
 
@@ -84,9 +89,20 @@ class DatabaseSeeder extends Seeder
                     'robots_follow' => true,
                     'is_active' => true,
                     'sort' => $data['sort'],
+                    'parent_id' => null,
                 ],
             );
             $categoryModels[$data['slug']['en']] = $category;
+        }
+
+        foreach ($categories as $data) {
+            if (! $data['parent_slug']) {
+                continue;
+            }
+
+            $categoryModels[$data['slug']['en']]->update([
+                'parent_id' => $categoryModels[$data['parent_slug']]->id,
+            ]);
         }
 
         $newCairo = $categoryModels['new-cairo'];
