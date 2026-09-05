@@ -35,31 +35,51 @@
   @if($children->isNotEmpty())
     <section class="categories" aria-labelledby="subcategories-heading">
       <div class="container">
-        <div class="categories-header">
-          <div>
-            <span class="section-label section-label--after">{{ app()->getLocale() === 'ar' ? 'تصنيفات فرعية' : 'Subcategories' }}</span>
-            <h2 id="subcategories-heading" class="section-title">{{ app()->getLocale() === 'ar' ? 'تصفح التصنيفات الفرعية' : 'Browse Subcategories' }}</h2>
+        <div class="categories-carousel" data-cat-slider>
+          <div class="categories-header">
+            <div>
+              <span class="section-label section-label--after">{{ app()->getLocale() === 'ar' ? 'تصنيفات فرعية' : 'Subcategories' }}</span>
+              <h2 id="subcategories-heading" class="section-title">{{ app()->getLocale() === 'ar' ? 'تصفح التصنيفات الفرعية' : 'Browse Subcategories' }}</h2>
+            </div>
+            <div class="categories-controls" data-cat-controls hidden>
+              <button type="button" class="cat-slider-btn" data-cat-prev aria-label="{{ app()->getLocale() === 'ar' ? 'السابق' : 'Previous' }}">
+                <span aria-hidden="true">‹</span>
+              </button>
+              <button type="button" class="cat-slider-btn" data-cat-next aria-label="{{ app()->getLocale() === 'ar' ? 'التالي' : 'Next' }}">
+                <span aria-hidden="true">›</span>
+              </button>
+            </div>
+          </div>
+          <div class="categories-slider">
+            <div class="categories-track">
+              @php
+                $categoryFallbacks = [
+                    'assets/images/city-skyline.jpg',
+                    'assets/images/villa-modern.jpg',
+                    'assets/images/villa-pool.jpg',
+                    'assets/images/villa-glass.jpg',
+                    'assets/images/villa-resort.jpg',
+                    'assets/images/hero.jpg',
+                ];
+              @endphp
+              @foreach($children as $child)
+                @php
+                  $heroUrl = $child->getFirstMediaUrl('hero');
+                  if (! $heroUrl) {
+                      $heroUrl = asset($categoryFallbacks[$loop->index % count($categoryFallbacks)]);
+                  }
+                @endphp
+                <a href="{{ \App\Support\LocaleUrl::category($child->getTranslation('slug', app()->getLocale())) }}" class="category-card">
+                  <img src="{{ $heroUrl }}" alt="{{ $child->getTranslation('name', app()->getLocale()) }}" width="320" height="420" loading="lazy">
+                  <div class="category-overlay">
+                    <h3>{{ $child->getTranslation('name', app()->getLocale()) }}</h3>
+                    <span class="explore-link">{{ app()->getLocale() === 'ar' ? 'استكشف' : 'Explore' }}</span>
+                  </div>
+                </a>
+              @endforeach
+            </div>
           </div>
         </div>
-        <div class="categories-slider" data-cat-slider>
-          <div class="categories-track">
-            @foreach($children as $child)
-              <a href="{{ \App\Support\LocaleUrl::category($child->getTranslation('slug', app()->getLocale())) }}" class="category-card">
-                <img src="{{ $child->getFirstMediaUrl('hero') ?: asset('assets/images/city-skyline.jpg') }}" alt="{{ $child->getTranslation('name', app()->getLocale()) }}" width="320" height="420" loading="lazy">
-                <div class="category-overlay">
-                  <h3>{{ $child->getTranslation('name', app()->getLocale()) }}</h3>
-                  <span class="explore-link">{{ app()->getLocale() === 'ar' ? 'استكشف' : 'Explore' }}</span>
-                </div>
-              </a>
-            @endforeach
-          </div>
-        </div>
-        @if($children->count() > 1)
-          <div class="categories-controls">
-            <button type="button" data-cat-prev aria-label="Previous">‹</button>
-            <button type="button" data-cat-next aria-label="Next">›</button>
-          </div>
-        @endif
       </div>
     </section>
   @endif

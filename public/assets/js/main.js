@@ -66,51 +66,79 @@ function initHeroSlider() {
 }
 
 function initCategorySlider() {
-  var root = document.querySelector('[data-cat-slider]');
-  if (!root) return;
+  var carousels = Array.prototype.slice.call(document.querySelectorAll('[data-cat-slider]'));
 
-  var track = root.querySelector('.categories-track');
-  var cards = Array.prototype.slice.call(track.querySelectorAll('.category-card'));
-  var prevBtn = document.querySelector('[data-cat-prev]');
-  var nextBtn = document.querySelector('[data-cat-next]');
-  var index = 0;
+  carousels.forEach(function (root) {
+    var viewport = root.querySelector('.categories-slider');
+    var track = root.querySelector('.categories-track');
+    var cards = Array.prototype.slice.call(root.querySelectorAll('.category-card'));
+    var controls = root.querySelector('[data-cat-controls]');
+    var prevBtn = root.querySelector('[data-cat-prev]');
+    var nextBtn = root.querySelector('[data-cat-next]');
 
-  function perView() {
-    var w = window.innerWidth;
-    if (w <= 640) return 1;
-    if (w <= 992) return 2;
-    if (w <= 1200) return 3;
-    return 4;
-  }
+    if (!viewport || !track || !cards.length) return;
 
-  function maxIndex() {
-    return Math.max(0, cards.length - perView());
-  }
+    function perView() {
+      var w = window.innerWidth;
+      if (w <= 640) return 1;
+      if (w <= 992) return 2;
+      if (w <= 1200) return 3;
+      return Math.min(3, cards.length);
+    }
 
-  function update() {
-    if (index > maxIndex()) index = maxIndex();
-    var card = cards[0];
-    if (!card) return;
-    var gap = 20;
-    var step = card.getBoundingClientRect().width + gap;
-    track.style.transform = 'translateX(' + (-index * step) + 'px)';
-    if (prevBtn) prevBtn.disabled = index <= 0;
-    if (nextBtn) nextBtn.disabled = index >= maxIndex();
-  }
+    function applyLayout() {
+      var visible = perView();
+      root.style.setProperty('--cat-per-view', String(visible));
+      root.style.setProperty('--cat-gap', '20px');
 
-  if (prevBtn) {
-    prevBtn.addEventListener('click', function () {
-      index = Math.max(0, index - 1);
-      update();
-    });
-  }
-  if (nextBtn) {
-    nextBtn.addEventListener('click', function () {
-      index = Math.min(maxIndex(), index + 1);
-      update();
-    });
-  }
+      var canScroll = cards.length > visible;
+      if (controls) {
+        controls.hidden = !canScroll;
+      }
 
-  window.addEventListener('resize', update);
-  update();
+      updateButtons();
+    }
+
+    function stepSize() {
+      var card = cards[0];
+      if (!card) return 0;
+      var styles = window.getComputedStyle(track);
+      var gap = parseFloat(styles.columnGap || styles.gap) || 20;
+      return card.getBoundingClientRect().width + gap;
+    }
+
+    function maxScrollLeft() {
+      return Math.max(0, viewport.scrollWidth - viewport.clientWidth);
+    }
+
+    function updateButtons() {
+      if (!prevBtn || !nextBtn) return;
+      var max = maxScrollLeft();
+      var left = Math.abs(viewport.scrollLeft);
+      var atStart = left <= 2;
+      var atEnd = left >= max - 2;
+      prevBtn.disabled = atStart;
+      nextBtn.disabled = atEnd || max <= 0;
+    }
+
+    function scrollByDir(dir) {
+      var amount = stepSize() * dir;
+      viewport.scrollBy({ left: amount, behavior: 'smooth' });
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function () {
+        scrollByDir(document.documentElement.dir === 'rtl' ? 1 : -1);
+      });
+    }
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function () {
+        scrollByDir(document.documentElement.dir === 'rtl' ? -1 : 1);
+      });
+    }
+
+    viewport.addEventListener('scroll', updateButtons, { passive: true });
+    window.addEventListener('resize', applyLayout);
+    applyLayout();
+  });
 }
