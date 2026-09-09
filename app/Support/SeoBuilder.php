@@ -144,13 +144,42 @@ class SeoBuilder
             return null;
         }
 
-        return [
+        $site = Setting::getValue('site', []);
+        $social = Setting::getValue('social', []);
+        $sameAs = array_values(array_unique(array_filter(
+            array_merge($organization['sameAs'] ?? [], array_values(is_array($social) ? $social : [])),
+            fn (mixed $url): bool => is_string($url) && $url !== '' && $url !== '#',
+        )));
+
+        $jsonLd = [
             '@context' => 'https://schema.org',
             '@type' => 'Organization',
             'name' => $organization['name'] ?? config('app.name'),
             'url' => $organization['url'] ?? url('/'),
             'logo' => $organization['logo'] ?? asset('assets/images/logo.png'),
-            'sameAs' => array_values(array_filter($organization['sameAs'] ?? [])),
+            'sameAs' => $sameAs,
         ];
+
+        if (filled($site['email'] ?? null)) {
+            $jsonLd['email'] = $site['email'];
+        }
+
+        if (filled($site['phone'] ?? null)) {
+            $jsonLd['telephone'] = $site['phone'];
+        }
+
+        $streetAddress = $site['offices']['head_office']['address']['en']
+            ?? $site['address']['en']
+            ?? null;
+
+        if (filled($streetAddress)) {
+            $jsonLd['address'] = [
+                '@type' => 'PostalAddress',
+                'streetAddress' => $streetAddress,
+                'addressCountry' => 'EG',
+            ];
+        }
+
+        return $jsonLd;
     }
 }

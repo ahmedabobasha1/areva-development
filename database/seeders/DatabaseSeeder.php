@@ -168,9 +168,40 @@ class DatabaseSeeder extends Seeder
 
         Setting::setValue('site', [
             'name' => ['en' => 'Areva Development', 'ar' => 'أريفا للتطوير'],
-            'email' => 'info@areva.com.eg',
-            'phone' => '+20 100 323 4567',
-            'address' => ['en' => 'New Cairo, Cairo, Egypt', 'ar' => 'القاهرة الجديدة، القاهرة، مصر'],
+            'email' => 'marketing@arevadevelopment.com',
+            'phone' => '19030',
+            'address' => [
+                'en' => 'Sheraton Heliopolis, Building 10, Al Moltaqa Al Araby st.',
+                'ar' => '10 شارع الملتقي العربي - شيراتون - مصر الجديدة - القاهرة',
+            ],
+            'offices' => [
+                'head_office' => [
+                    'label' => ['en' => 'Head Office', 'ar' => 'الفرع الرئيسي'],
+                    'address' => [
+                        'en' => 'Sheraton Heliopolis, Building 10, Al Moltaqa Al Araby st.',
+                        'ar' => '10 شارع الملتقي العربي - شيراتون - مصر الجديدة - القاهرة',
+                    ],
+                ],
+                'sales' => [
+                    'label' => ['en' => 'Sales Offices', 'ar' => 'مكاتب المبيعات'],
+                    'locations' => [
+                        [
+                            'label' => ['en' => 'Sheraton', 'ar' => 'شيراتون'],
+                            'address' => [
+                                'en' => 'Sheraton Heliopolis, Building 10, Al Moltaqa Al Araby st.',
+                                'ar' => '10 شارع الملتقي العربي - شيراتون - مصر الجديدة - القاهرة',
+                            ],
+                        ],
+                        [
+                            'label' => ['en' => 'New Cairo', 'ar' => 'التجمع الخامس'],
+                            'address' => [
+                                'en' => 'Plot no 158, 90th North, New Cairo, Egypt',
+                                'ar' => 'القطعة رقم 158، شارع التسعين الشمالي، القاهرة الجديدة، مصر',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
             'footer_blurb' => [
                 'en' => 'Creating exceptional spaces that empower businesses and individuals to thrive across Egypt’s leading real estate markets.',
                 'ar' => 'نصنع مساحات استثنائية تمكّن الأفراد والأعمال من الازدهار في أبرز أسواق العقارات في مصر.',
@@ -192,13 +223,17 @@ class DatabaseSeeder extends Seeder
             'name' => 'Areva Development',
             'url' => 'https://www.areva-development.com/',
             'logo' => '/assets/images/logo.png',
+            'sameAs' => [
+                'https://www.facebook.com/arevadevelopment',
+                'https://www.instagram.com/areva.development',
+                'https://www.youtube.com/@ArevaDevelopment',
+            ],
         ]);
 
         Setting::setValue('social', [
-            'instagram' => '#',
-            'facebook' => '#',
-            'twitter' => '#',
-            'linkedin' => '#',
+            'instagram' => 'https://www.instagram.com/areva.development',
+            'facebook' => 'https://www.facebook.com/arevadevelopment',
+            'youtube' => 'https://www.youtube.com/@ArevaDevelopment',
         ]);
     }
 }
