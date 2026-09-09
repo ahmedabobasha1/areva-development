@@ -8,7 +8,7 @@
     <div class="container">
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
-          <li><a href="{{ url('/'.app()->getLocale()) }}">Home</a></li>
+          <li><a href="{{ url('/'.app()->getLocale()) }}">{{ app()->getLocale() === 'ar' ? 'الرئيسية' : 'Home' }}</a></li>
           @if($article->category)
             <li><a href="{{ url('/'.app()->getLocale().'/categories/'.$article->category->getTranslation('slug', app()->getLocale())) }}">{{ $article->category->getTranslation('name', app()->getLocale()) }}</a></li>
           @endif
