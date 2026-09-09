@@ -122,7 +122,6 @@ html[dir="rtl"] .article-hero-meta,
 html[dir="rtl"] .category-hero-meta {
   direction: rtl;
 }
-html[dir="rtl"] .primary-nav { flex-direction: row-reverse; }
 
 /* ===== Hero Slider ===== */
 .hero {
