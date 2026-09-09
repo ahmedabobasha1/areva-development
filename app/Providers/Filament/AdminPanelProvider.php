@@ -30,6 +30,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->brandName('Areva CMS')
+            ->favicon(asset('favicon.ico'))
             ->colors([
                 'primary' => Color::hex('#0B1F3A'),
             ])

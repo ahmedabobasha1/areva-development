@@ -50,7 +50,7 @@
   <div class="container">
     <div class="footer-top">
       <div class="footer-brand">
-        <a href="{{ $homeUrl }}" class="logo" aria-label="{{ config('app.name') }} Home">
+        <a href="{{ $homeUrl }}" class="logo" aria-label="{{ config('app.name') }} {{ $locale === 'ar' ? 'الرئيسية' : 'Home' }}">
           <img src="{{ asset('assets/images/logo-white.png') }}" alt="{{ config('app.name') }}" width="180" height="56" loading="lazy">
         </a>
         <p>{{ $footerBlurb }}</p>

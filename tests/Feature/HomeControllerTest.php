@@ -37,6 +37,30 @@ class HomeControllerTest extends TestCase
             ->assertDontSee('aria-label="LinkedIn"', false);
     }
 
+    public function test_home_nav_renders_english_home_label(): void
+    {
+        $this->get('/en')
+            ->assertSee('>Home</a>', false)
+            ->assertDontSee('>الرئيسية</a>', false);
+    }
+
+    public function test_home_nav_renders_arabic_home_label(): void
+    {
+        $this->get('/ar')
+            ->assertSee('>الرئيسية</a>', false)
+            ->assertDontSee('>Home</a>', false);
+    }
+
+    public function test_home_renders_favicon_links(): void
+    {
+        $this->get('/en')
+            ->assertSee('rel="icon"', false)
+            ->assertSee('/favicon.ico', false)
+            ->assertSee('/assets/images/favicon-32x32.png', false)
+            ->assertSee('rel="apple-touch-icon"', false)
+            ->assertSee('/apple-touch-icon.png', false);
+    }
+
     public function test_home_footer_renders_english_head_office_and_sales_offices(): void
     {
         $this->storeOfficeSettings();
