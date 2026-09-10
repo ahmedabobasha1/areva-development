@@ -17,6 +17,7 @@ class GlareControllerTest extends TestCase
             ->assertSee('Designing Spaces.', false)
             ->assertSee('GLARE', false)
             ->assertSee('id="contact"', false)
+            ->assertSee('class="lp-hero-form"', false)
             ->assertSee('Send Inquiry', false)
             ->assertSee('glare-landing', false)
             ->assertSeeText("Let's Create Something Exceptional")
@@ -58,10 +59,10 @@ class GlareControllerTest extends TestCase
     {
         $glare = $this->ensureGlareLanding();
         $originalTitle = $glare->getTranslation('hero_title', 'en');
-        $originalCta = $glare->getTranslation('cta_label', 'en');
+        $originalSubmit = $glare->getTranslation('submit_label', 'en');
 
         $glare->setTranslation('hero_title', 'en', "Custom Spaces.\nCustom Experiences.");
-        $glare->setTranslation('cta_label', 'en', 'Book a Consult');
+        $glare->setTranslation('submit_label', 'en', 'Book a Consult');
         $glare->save();
 
         try {
@@ -71,7 +72,7 @@ class GlareControllerTest extends TestCase
                 ->assertSee('Book a Consult', false);
         } finally {
             $glare->setTranslation('hero_title', 'en', $originalTitle);
-            $glare->setTranslation('cta_label', 'en', $originalCta);
+            $glare->setTranslation('submit_label', 'en', $originalSubmit);
             $glare->save();
         }
     }

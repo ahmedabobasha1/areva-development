@@ -58,12 +58,6 @@ class GlareLandingResource extends Resource
                                             ->label('Supporting text')
                                             ->rows(3)
                                             ->columnSpanFull(),
-                                        TextInput::make('cta_label')
-                                            ->label('CTA label')
-                                            ->maxLength(120),
-                                        TextInput::make('scroll_label')
-                                            ->label('Scroll hint')
-                                            ->maxLength(120),
                                         TextInput::make('back_label')
                                             ->label('Back link label')
                                             ->maxLength(120),
@@ -90,9 +84,9 @@ class GlareLandingResource extends Resource
                                             ->columnSpanFull(),
                                     ]),
                             ]),
-                        Tab::make('Contact')
+                        Tab::make('Form')
                             ->schema([
-                                Section::make('Contact section')
+                                Section::make('Form panel')
                                     ->columns(2)
                                     ->schema([
                                         TextInput::make('contact_eyebrow')
@@ -103,12 +97,8 @@ class GlareLandingResource extends Resource
                                             ->maxLength(190)
                                             ->columnSpanFull(),
                                         Textarea::make('contact_lead')
-                                            ->label('Intro text')
+                                            ->label('Text above form')
                                             ->rows(3)
-                                            ->columnSpanFull(),
-                                        TextInput::make('contact_banner')
-                                            ->label('Side banner text')
-                                            ->maxLength(190)
                                             ->columnSpanFull(),
                                         TextInput::make('submit_label')
                                             ->label('Submit button')
@@ -116,15 +106,6 @@ class GlareLandingResource extends Resource
                                         TextInput::make('trust_line')
                                             ->label('Trust line')
                                             ->maxLength(190),
-                                        SpatieMediaLibraryFileUpload::make('contact_image')
-                                            ->label('Side image')
-                                            ->collection('contact_image')
-                                            ->image()
-                                            ->imageEditor()
-                                            ->downloadable()
-                                            ->openable()
-                                            ->maxSize(8192)
-                                            ->columnSpanFull(),
                                     ]),
                                 Section::make('Project types')
                                     ->schema([
