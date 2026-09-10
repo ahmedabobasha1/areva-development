@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\GlareController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RobotsController;
 use App\Http\Controllers\SitemapController;
@@ -18,6 +19,7 @@ Route::prefix('{locale}')
     ->middleware('locale')
     ->group(function () {
         Route::get('/', HomeController::class)->name('home');
+        Route::get('/glare', GlareController::class)->name('glare');
         Route::get('/categories/{slug}', [CategoryController::class, 'show'])->name('categories.show');
         Route::get('/blog/{slug}', [ArticleController::class, 'show'])->name('articles.show');
         Route::get('/contact', [ContactController::class, 'show'])->name('contact.show');

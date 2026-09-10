@@ -4,6 +4,7 @@ namespace App\Support;
 
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\GlareLanding;
 use App\Models\Setting;
 use Illuminate\Support\Str;
 
@@ -46,6 +47,56 @@ class SeoBuilder
                     'inLanguage' => $locale,
                 ],
             ])),
+        ], $overrides);
+    }
+
+    /**
+     * @param  array<string, mixed>  $overrides
+     * @return array<string, mixed>
+     */
+    public static function forGlare(string $locale, ?GlareLanding $glare = null, array $overrides = []): array
+    {
+        $glare ??= GlareLanding::current();
+
+        $title = $glare->localized('meta_title', $locale)
+            ?: ($locale === 'ar'
+                ? 'GLARE — نصمم المساحات ونصنع التجارب'
+                : 'GLARE — Designing Spaces. Creating Experiences.');
+        $description = $glare->localized('meta_description', $locale)
+            ?: ($locale === 'ar'
+                ? 'حلول تصميم داخلي مخصصة من GLARE حيث تلتقي الإبداع والوظيفة والتفاصيل الراقية.'
+                : 'Bespoke interior design solutions from GLARE where creativity, functionality, and refined details come together.');
+
+        return array_replace_recursive([
+            'title' => $title,
+            'description' => $description,
+            'canonical' => LocaleUrl::glare($locale),
+            'robots' => self::robots(true, true),
+            'og_type' => 'website',
+            'og_title' => $title,
+            'og_description' => $description,
+            'og_image' => $glare->heroImageUrl(),
+            'site_name' => 'GLARE',
+            'hreflang' => [
+                'en' => LocaleUrl::glare('en'),
+                'ar' => LocaleUrl::glare('ar'),
+                'x-default' => LocaleUrl::glare(config('areva.default_locale', 'en')),
+            ],
+            'json_ld' => [
+                [
+                    '@context' => 'https://schema.org',
+                    '@type' => 'WebPage',
+                    'name' => $title,
+                    'description' => $description,
+                    'url' => LocaleUrl::glare($locale),
+                    'inLanguage' => $locale,
+                    'isPartOf' => [
+                        '@type' => 'WebSite',
+                        'name' => config('app.name'),
+                        'url' => LocaleUrl::home($locale),
+                    ],
+                ],
+            ],
         ], $overrides);
     }
 

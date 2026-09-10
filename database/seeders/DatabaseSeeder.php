@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\GlareLanding;
 use App\Models\HeroSlide;
 use App\Models\Setting;
 use App\Models\User;
@@ -235,5 +236,7 @@ class DatabaseSeeder extends Seeder
             'facebook' => 'https://www.facebook.com/arevadevelopment',
             'youtube' => 'https://www.youtube.com/@ArevaDevelopment',
         ]);
+
+        GlareLanding::current();
     }
 }

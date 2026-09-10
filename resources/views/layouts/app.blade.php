@@ -11,8 +11,10 @@
   <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
   @stack('head')
 </head>
-<body>
-  @include('partials.header')
+<body @class([($bodyClass ?? '') => filled($bodyClass ?? null)])>
+  @unless($hideSiteHeader ?? false)
+    @include('partials.header')
+  @endunless
 
   <main>
     @yield('content')

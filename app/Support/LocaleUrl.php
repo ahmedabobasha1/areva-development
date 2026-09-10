@@ -27,4 +27,11 @@ class LocaleUrl
     {
         return self::home($locale).'#contact';
     }
+
+    public static function glare(?string $locale = null): string
+    {
+        $locale ??= app()->getLocale();
+
+        return url('/'.$locale.'/glare');
+    }
 }
