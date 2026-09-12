@@ -81,9 +81,9 @@ class Article extends Model implements HasMedia
     public function scopePublished(Builder $query): Builder
     {
         return $query
-            ->where('status', self::STATUS_PUBLISHED)
-            ->whereNotNull('published_at')
-            ->where('published_at', '<=', now());
+            ->where('status', self::STATUS_PUBLISHED);
+        // ->whereNotNull('published_at')
+        // ->where('published_at', '<=', now());
     }
 
     public function scopeFeatured(Builder $query): Builder
