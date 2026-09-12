@@ -34,4 +34,11 @@ class LocaleUrl
 
         return url('/'.$locale.'/glare');
     }
+
+    public static function glare1(?string $locale = null): string
+    {
+        $locale ??= app()->getLocale();
+
+        return url('/'.$locale.'/glare1');
+    }
 }

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\Glare1Landing;
 use App\Models\GlareLanding;
 use App\Models\HeroSlide;
 use App\Models\Setting;
@@ -238,5 +239,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         GlareLanding::current();
+        Glare1Landing::current();
     }
 }
