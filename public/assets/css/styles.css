@@ -1492,7 +1492,7 @@ html[dir="rtl"] .quick-contact {
   border-bottom: 1px solid #eee;
   font-weight: 500;
 }
-.article-lead::first-letter {
+/* .article-lead::first-letter {
   font-family: var(--font-heading);
   font-size: 3.2rem;
   line-height: 1;
@@ -1500,7 +1500,7 @@ html[dir="rtl"] .quick-contact {
   margin: 4px 10px 0 0;
   color: var(--color-accent);
   font-weight: 700;
-}
+} */
 .article-body h2 {
   font-family: var(--font-heading);
   font-size: 1.75rem;
