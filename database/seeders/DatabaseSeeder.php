@@ -172,6 +172,7 @@ class DatabaseSeeder extends Seeder
             'name' => ['en' => 'Areva Development', 'ar' => 'أريفا للتطوير'],
             'email' => 'marketing@arevadevelopment.com',
             'phone' => '19030',
+            'whatsapp' => '01094942833',
             'address' => [
                 'en' => 'Sheraton Heliopolis, Building 10, Al Moltaqa Al Araby st.',
                 'ar' => '10 شارع الملتقي العربي - شيراتون - مصر الجديدة - القاهرة',

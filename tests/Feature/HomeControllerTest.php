@@ -13,6 +13,7 @@ class HomeControllerTest extends TestCase
         Setting::setValue('site', array_merge(is_array($site) ? $site : [], [
             'email' => 'marketing@arevadevelopment.com',
             'phone' => '19030',
+            'whatsapp' => '01094942833',
         ]));
 
         Setting::setValue('social', [
@@ -26,6 +27,9 @@ class HomeControllerTest extends TestCase
             ->assertSee('mailto:marketing@arevadevelopment.com', false)
             ->assertSee('19030', false)
             ->assertSee('tel:19030', false)
+            ->assertSee('01094942833', false)
+            ->assertSee('tel:01094942833', false)
+            ->assertSee('https://wa.me/201094942833', false)
             ->assertSee('https://www.facebook.com/arevadevelopment', false)
             ->assertSee('https://www.instagram.com/areva.development', false)
             ->assertSee('https://www.youtube.com/@ArevaDevelopment', false)
