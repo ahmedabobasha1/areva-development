@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Filament\Forms\Components\RichEditor\RichContentCustomBlocks\VideoEmbedBlock;
+use App\Support\RichHtml;
 use Filament\Forms\Components\RichEditor\RichContentRenderer;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -123,10 +124,12 @@ class Article extends Model implements HasMedia
             return '';
         }
 
-        return RichContentRenderer::make($body)
-            ->customBlocks([
-                VideoEmbedBlock::class,
-            ])
-            ->toHtml();
+        return RichHtml::normalizeTextAlign(
+            RichContentRenderer::make($body)
+                ->customBlocks([
+                    VideoEmbedBlock::class,
+                ])
+                ->toHtml()
+        );
     }
 }
