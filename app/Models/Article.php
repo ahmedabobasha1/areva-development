@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Filament\Forms\Components\RichEditor\RichContentCustomBlocks\VideoEmbedBlock;
+use Filament\Forms\Components\RichEditor\RichContentRenderer;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -110,5 +112,21 @@ class Article extends Model implements HasMedia
         return $this->status === self::STATUS_PUBLISHED
             && $this->published_at !== null
             && $this->published_at->lte(now());
+    }
+
+    public function renderedBody(?string $locale = null): string
+    {
+        $locale ??= app()->getLocale();
+        $body = $this->getTranslation('body', $locale);
+
+        if (blank($body)) {
+            return '';
+        }
+
+        return RichContentRenderer::make($body)
+            ->customBlocks([
+                VideoEmbedBlock::class,
+            ])
+            ->toHtml();
     }
 }

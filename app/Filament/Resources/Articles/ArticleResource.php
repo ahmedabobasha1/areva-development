@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Articles;
 
+use App\Filament\Forms\Components\RichEditor\RichContentCustomBlocks\VideoEmbedBlock;
 use App\Filament\Resources\Articles\Pages\CreateArticle;
 use App\Filament\Resources\Articles\Pages\EditArticle;
 use App\Filament\Resources\Articles\Pages\ListArticles;
@@ -94,6 +95,10 @@ class ArticleResource extends Resource
                                             ->rows(3)
                                             ->columnSpanFull(),
                                         RichEditor::make('body')
+                                            ->customBlocks([
+                                                VideoEmbedBlock::class,
+                                            ])
+                                            ->helperText('Use the blocks panel to insert a YouTube, Vimeo, or direct video URL into the article body.')
                                             ->columnSpanFull(),
                                     ]),
                             ]),

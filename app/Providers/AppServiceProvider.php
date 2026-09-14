@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Category;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Symfony\Component\HtmlSanitizer\HtmlSanitizerConfig;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +14,37 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->extend(HtmlSanitizerConfig::class, function (HtmlSanitizerConfig $config): HtmlSanitizerConfig {
+            return $config
+                ->allowElement('iframe', [
+                    'src',
+                    'width',
+                    'height',
+                    'title',
+                    'allow',
+                    'allowfullscreen',
+                    'frameborder',
+                    'loading',
+                    'referrerpolicy',
+                    'class',
+                    'style',
+                ])
+                ->allowElement('video', [
+                    'src',
+                    'controls',
+                    'playsinline',
+                    'preload',
+                    'poster',
+                    'width',
+                    'height',
+                    'class',
+                    'style',
+                    'title',
+                ])
+                ->allowElement('source', ['src', 'type'])
+                ->allowElement('figure', ['class', 'style'])
+                ->allowAttribute('data-config', allowedElements: '*');
+        });
     }
 
     /**

@@ -37,7 +37,7 @@
           @if($article->getTranslation('excerpt', app()->getLocale()))
             <p class="article-lead">{{ $article->getTranslation('excerpt', app()->getLocale()) }}</p>
           @endif
-          {!! $article->getTranslation('body', app()->getLocale()) !!}
+          {!! $article->renderedBody() !!}
         </div>
         @php($gallery = $article->getMedia('gallery'))
         @if($gallery->isNotEmpty())
