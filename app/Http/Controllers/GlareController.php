@@ -20,7 +20,7 @@ class GlareController extends Controller
 
         return view('glare', [
             'glare' => $glare,
-            'hideSiteHeader' => true,
+            'hideSiteHeader' => false,
             'bodyClass' => 'lp-home',
             'langSwitchUrls' => [
                 'en' => LocaleUrl::glare('en'),
