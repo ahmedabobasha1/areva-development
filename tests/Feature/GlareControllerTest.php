@@ -36,7 +36,20 @@ class GlareControllerTest extends TestCase
             ->assertSee('class="quick-contact-call"', false)
             ->assertSee('tel:19030', false)
             ->assertSee('class="quick-contact-whatsapp"', false)
-            ->assertSee('https://wa.me/201094942833', false);
+            ->assertSee('https://wa.me/201094942833', false)
+            ->assertSee('rel="preload" as="style"', false)
+            ->assertDontSee('assets/js/main.js', false);
+    }
+
+    public function test_glare_arabic_skips_google_fonts(): void
+    {
+        $this->ensureGlareLanding();
+
+        $this->get('/ar/glare')
+            ->assertOk()
+            ->assertDontSee('fonts.googleapis.com', false)
+            ->assertSee('rel="preload" as="image"', false)
+            ->assertDontSee('assets/js/main.js', false);
     }
 
     public function test_glare_landing_renders_for_arabic(): void

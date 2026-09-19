@@ -2133,8 +2133,8 @@ body.lp-home {
   --lp-gold: #c9a46a;
   --lp-cream: #f4f1ec;
   --lp-field: #ebe7e1;
-  --lp-serif: 'Cormorant Garamond', Georgia, serif;
-  --lp-sans: 'Manrope', 'Segoe UI', sans-serif;
+  --lp-serif: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+  --lp-sans: 'Manrope', 'Segoe UI', Tahoma, Arial, sans-serif;
   font-family: var(--lp-sans);
 }
 

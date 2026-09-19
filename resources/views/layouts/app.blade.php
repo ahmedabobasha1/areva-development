@@ -20,9 +20,15 @@
     @yield('content')
   </main>
 
-  @include('partials.footer')
+  @if (($bodyClass ?? null) === 'lp-home')
+    @include('partials.quick-contact')
+  @else
+    @include('partials.footer')
+  @endif
 
-  <script src="{{ asset('assets/js/main.js') }}" defer></script>
+  @unless(($bodyClass ?? null) === 'lp-home')
+    <script src="{{ asset('assets/js/main.js') }}" defer></script>
+  @endunless
   @stack('scripts')
 </body>
 </html>
