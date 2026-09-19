@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Glare1Landing;
+use App\Models\Setting;
 use Tests\TestCase;
 use Throwable;
 
@@ -21,6 +22,20 @@ class Glare1ControllerTest extends TestCase
             ->assertSee('glare1-landing', false)
             ->assertSeeText("Let's Create Something Exceptional")
             ->assertDontSee('نصمم المساحات.', false);
+    }
+
+    public function test_glare1_landing_renders_call_actions(): void
+    {
+        $this->ensureGlare1Landing();
+        $this->seedContactSettings();
+
+        $this->get('/en/glare1')
+            ->assertOk()
+            ->assertSee('class="quick-contact"', false)
+            ->assertSee('class="quick-contact-call"', false)
+            ->assertSee('tel:19030', false)
+            ->assertSee('class="quick-contact-whatsapp"', false)
+            ->assertSee('https://wa.me/201094942833', false);
     }
 
     public function test_glare1_landing_renders_for_arabic(): void
@@ -87,6 +102,23 @@ class Glare1ControllerTest extends TestCase
     {
         try {
             return Glare1Landing::current();
+        } catch (Throwable $exception) {
+            if ($this->isUnavailableDatabase($exception)) {
+                $this->markTestSkipped('Database driver is unavailable in this test environment.');
+            }
+
+            throw $exception;
+        }
+    }
+
+    private function seedContactSettings(): void
+    {
+        try {
+            $site = Setting::getValue('site', []);
+            Setting::setValue('site', array_merge(is_array($site) ? $site : [], [
+                'phone' => '19030',
+                'whatsapp' => '01094942833',
+            ]));
         } catch (Throwable $exception) {
             if ($this->isUnavailableDatabase($exception)) {
                 $this->markTestSkipped('Database driver is unavailable in this test environment.');

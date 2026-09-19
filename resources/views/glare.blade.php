@@ -91,22 +91,21 @@
 
           <div class="lp-form-row">
             <label class="lp-field">
-              <span class="lp-field-label">{{ $isAr ? 'البريد الإلكتروني' : 'Email Address' }} *</span>
+              <span class="lp-field-label">{{ $isAr ? 'البريد الإلكتروني' : 'Email Address' }}</span>
               <input
                 type="email"
                 name="email"
                 value="{{ old('email') }}"
-                required
                 autocomplete="email"
                 placeholder="{{ $isAr ? 'name@email.com' : 'name@email.com' }}"
               >
               @error('email') <span class="lp-field-error">{{ $message }}</span> @enderror
             </label>
             <label class="lp-field">
-              <span class="lp-field-label">{{ $isAr ? 'نوع المشروع' : 'Project Type' }} *</span>
+              <span class="lp-field-label">{{ $isAr ? 'نوع الوحدة' : 'Property Type' }} *</span>
               <select name="subject" required>
                 <option value="" disabled {{ old('subject') ? '' : 'selected' }}>
-                  {{ $isAr ? 'اختر نوع المشروع' : 'Select project type' }}
+                  {{ $isAr ? 'اختر نوع الوحدة' : 'Select property type' }}
                 </option>
                 @foreach ($projectTypes as $value => $label)
                   <option value="{{ $value }}" @selected(old('subject') === $value)>{{ $label }}</option>

@@ -107,7 +107,7 @@ class GlareLandingResource extends Resource
                                             ->label('Trust line')
                                             ->maxLength(190),
                                     ]),
-                                Section::make('Project types')
+                                Section::make('Property types')
                                     ->schema([
                                         Repeater::make('project_types')
                                             ->label('Dropdown options')

@@ -2138,8 +2138,7 @@ body.lp-home {
   font-family: var(--lp-sans);
 }
 
-body.lp-home .site-footer,
-body.lp-home .quick-contact {
+body.lp-home .site-footer {
   display: none;
 }
 
@@ -2418,10 +2417,10 @@ html[dir="rtl"] .lp-submit:hover span { transform: translateX(-4px); }
 html[dir="rtl"] .lp-eyebrow { flex-direction: row-reverse; }
 html[dir="rtl"] .lp-field select {
   background-position:
-    18px calc(50% - 3px),
-    12px calc(50% - 3px);
+    12px calc(50% - 3px),
+    18px calc(50% - 3px);
   padding-right: 16px;
-  padding-left: 40px;
+  padding-left: 42px;
 }
 
 @keyframes lp-rise {
