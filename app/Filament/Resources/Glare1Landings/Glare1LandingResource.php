@@ -106,6 +106,11 @@ class Glare1LandingResource extends Resource
                                         TextInput::make('trust_line')
                                             ->label('Trust line')
                                             ->maxLength(190),
+                                        TextInput::make('whatsapp')
+                                            ->label('WhatsApp link')
+                                            ->maxLength(190)
+                                            ->helperText('Used for the floating WhatsApp button on this landing. Paste any link as-is (e.g. https://wa.me/... or a custom URL). Leave empty to use the site default.')
+                                            ->columnSpanFull(),
                                     ]),
                                 Section::make('Property types')
                                     ->schema([

@@ -41,6 +41,25 @@ class GlareControllerTest extends TestCase
             ->assertDontSee('assets/js/main.js', false);
     }
 
+    public function test_glare_landing_uses_admin_whatsapp_link(): void
+    {
+        $glare = $this->ensureGlareLanding();
+        $this->seedContactSettings();
+        $original = $glare->whatsapp;
+
+        $customLink = 'https://example.com/custom-whatsapp-glare';
+        $glare->update(['whatsapp' => $customLink]);
+
+        try {
+            $this->get('/en/glare')
+                ->assertOk()
+                ->assertSee($customLink, false)
+                ->assertDontSee('https://wa.me/201094942833', false);
+        } finally {
+            $glare->update(['whatsapp' => $original]);
+        }
+    }
+
     public function test_glare_arabic_skips_google_fonts(): void
     {
         $this->ensureGlareLanding();

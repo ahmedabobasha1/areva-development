@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\WhatsAppLink;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -24,6 +25,7 @@ class GlareLanding extends Model implements HasMedia
         'contact_banner',
         'submit_label',
         'trust_line',
+        'whatsapp',
         'project_types',
         'meta_title',
         'meta_description',
@@ -201,5 +203,10 @@ class GlareLanding extends Model implements HasMedia
     public function logoUrl(): string
     {
         return $this->getFirstMediaUrl('logo') ?: asset('assets/images/glare-logo-white.png');
+    }
+
+    public function whatsappUrl(): ?string
+    {
+        return WhatsAppLink::from($this->whatsapp);
     }
 }

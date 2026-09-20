@@ -1,15 +1,16 @@
 @php
+  use App\Support\WhatsAppLink;
+
   $locale = app()->getLocale();
   $site = \App\Models\Setting::getValue('site', []);
   $social = \App\Models\Setting::getValue('social', []);
   $phone = $site['phone'] ?? '19030';
   $phoneHref = preg_replace('/\s+/', '', (string) $phone);
-  $mobile = $site['whatsapp'] ?? $social['whatsapp'] ?? null;
-  $whatsappDigits = preg_replace('/\D+/', '', (string) ($mobile ?? $phone));
-  if (str_starts_with((string) $whatsappDigits, '0')) {
-      $whatsappDigits = '20'.substr((string) $whatsappDigits, 1);
+  $whatsappUrl = $whatsappOverride ?? null;
+  if (blank($whatsappUrl)) {
+      $mobile = $site['whatsapp'] ?? $social['whatsapp'] ?? null;
+      $whatsappUrl = WhatsAppLink::from($mobile ?? $phone);
   }
-  $whatsappUrl = filled($whatsappDigits) ? 'https://wa.me/'.$whatsappDigits : null;
   $callLabel = $locale === 'ar' ? 'اتصال' : 'Call';
   $whatsappLabel = $locale === 'ar' ? 'واتساب' : 'WhatsApp';
 @endphp

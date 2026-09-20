@@ -21,7 +21,9 @@
   </main>
 
   @if (($bodyClass ?? null) === 'lp-home')
-    @include('partials.quick-contact')
+    @include('partials.quick-contact', [
+      'whatsappOverride' => isset($glare) ? $glare->whatsappUrl() : null,
+    ])
   @else
     @include('partials.footer')
   @endif
