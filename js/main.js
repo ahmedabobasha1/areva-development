@@ -284,7 +284,11 @@ function showSlide(n) {
     el.classList.toggle("is-active", on);
     el.hidden = !on;
   });
-  images.forEach((el, i) => el.classList.toggle("is-active", i === slide));
+  images.forEach((el, i) => {
+    const on = i === slide;
+    if (on && el.dataset.src && !el.getAttribute("src")) el.src = el.dataset.src;
+    el.classList.toggle("is-active", on);
+  });
   if (indexEl) indexEl.textContent = String(slide + 1).padStart(2, "0");
   if (fill) fill.style.width = ((slide + 1) / slides.length) * 100 + "%";
 }
@@ -293,10 +297,14 @@ function queue() {
   clearInterval(timer);
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reduce) return;
-  timer = setInterval(() => showSlide(slide + 1), 7000);
+  timer = setInterval(() => {
+    hero.classList.add("has-played");
+    showSlide(slide + 1);
+  }, 7000);
 }
 
 document.getElementById("hero-next").addEventListener("click", () => {
+  hero.classList.add("has-played");
   showSlide(slide + 1);
   queue();
 });
@@ -306,6 +314,7 @@ hero.addEventListener("touchstart", (e) => { touchX = e.changedTouches[0].client
 hero.addEventListener("touchend", (e) => {
   const dx = e.changedTouches[0].clientX - touchX;
   if (Math.abs(dx) < 48) return;
+  hero.classList.add("has-played");
   showSlide(slide + (dx < 0 ? 1 : -1));
   queue();
 });
@@ -442,14 +451,18 @@ function setupReveal() {
     el.style.transitionDelay = (index % 4) * 90 + "ms";
   });
   const revealSeen = () => {
+    const line = window.innerHeight - 24;
+    const ready = [];
     nodes.forEach((el) => {
       if (el.classList.contains("is-in")) return;
-      if (el.getBoundingClientRect().top < window.innerHeight - 24) el.classList.add("is-in");
+      if (el.getBoundingClientRect().top < line) ready.push(el);
     });
+    ready.forEach((el) => el.classList.add("is-in"));
   };
-  revealSeen();
+  requestAnimationFrame(revealSeen);
   window.addEventListener("scroll", revealSeen, { passive: true });
 }
+window.addEventListener("load", () => document.documentElement.classList.add("is-ready"));
 setupReveal();
 
 rememberEnglish();

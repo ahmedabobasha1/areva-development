@@ -18,6 +18,20 @@
 }
 
 * { box-sizing: border-box; }
+@font-face {
+  font-family: "Outfit";
+  font-style: normal;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url("../assets/fonts/outfit-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Instrument Serif";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/instrument-serif-italic.woff2") format("woff2");
+}
 html { scroll-behavior: smooth; overflow-x: clip; }
 body {
   margin: 0;
@@ -199,9 +213,9 @@ section[id] { scroll-margin-top: var(--header); }
   height: 100%;
   object-fit: cover;
   opacity: 0;
-  transition: opacity 0.8s ease;
 }
-.hero-img.is-active { opacity: 1; animation: heroDrift 16s ease-out both; }
+.hero-img.is-active { opacity: 1; }
+html.is-ready .hero-img { transition: opacity 0.6s ease; }
 .hero-overlay {
   background:
     linear-gradient(180deg, rgba(8, 26, 34, 0.55) 0%, rgba(8, 26, 34, 0.12) 32%, rgba(8, 26, 34, 0.22) 62%, rgba(8, 26, 34, 0.55) 100%),
@@ -737,15 +751,25 @@ html[dir="rtl"] .hero-scroll { right: auto; left: calc(28px - (100vw - 100%) / 2
   .info-row { grid-template-columns: 1fr; }
 }
 
-.hero-slide.is-active .eyebrow,
-.hero-slide.is-active .split-title,
-.hero-slide.is-active .lede,
-.hero-progress {
+.hero.has-played .hero-slide.is-active .eyebrow,
+.hero.has-played .hero-slide.is-active .split-title,
+.hero.has-played .hero-slide.is-active .lede,
+.hero.has-played .hero-progress {
   animation: rise 0.9s ease both;
 }
-.hero-slide.is-active .split-title { animation-delay: 0.12s; }
-.hero-slide.is-active .lede { animation-delay: 0.24s; }
-.hero-progress { animation-delay: 0.36s; }
+.hero.has-played .hero-slide.is-active .split-title { animation-delay: 0.12s; }
+.hero.has-played .hero-slide.is-active .lede { animation-delay: 0.24s; }
+.hero.has-played .hero-progress { animation-delay: 0.36s; }
+.portfolio,
+.feature,
+.media,
+.message,
+.careers,
+.contact,
+.site-footer {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 720px;
+}
 
 .reveal {
   opacity: 0;
@@ -773,10 +797,6 @@ html[dir="rtl"] .hero-scroll { right: auto; left: calc(28px - (100vw - 100%) / 2
 @keyframes rise {
   from { opacity: 0; transform: translateY(24px); }
   to { opacity: 1; transform: none; }
-}
-@keyframes heroDrift {
-  from { transform: scale(1.08); }
-  to { transform: scale(1); }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -15,17 +15,14 @@
   <meta property="og:type" content="website">
   <meta property="og:locale" content="en_US">
   <meta property="og:locale:alternate" content="ar_EG">
-  <meta property="og:image" content="assets/images/hero.jpg">
+  <meta property="og:image" content="assets/images/hero-1600.webp">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="AREVA Development">
   <meta name="twitter:description" content="Spaces that move life forward. Destinations across Egypt since 1986.">
-  <meta name="twitter:image" content="assets/images/hero.jpg">
+  <meta name="twitter:image" content="assets/images/hero-1600.webp">
   <link rel="icon" href="assets/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="assets/apple-touch.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap">
-  <link rel="preload" as="image" href="assets/images/hero.jpg" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/images/hero-800.webp" imagesrcset="assets/images/hero-800.webp 800w, assets/images/hero-1600.webp 1600w" imagesizes="100vw" fetchpriority="high">
   <link rel="stylesheet" href="css/styles.css">
   <script type="application/ld+json">
   {
@@ -95,7 +92,7 @@
 
   <header class="site-header" id="header">
     <a class="logo" href="#top">
-      <img src="assets/logo-white.png" alt="AREVA Development" width="360" height="113">
+      <img src="assets/logo-white.png" alt="AREVA Development" width="360" height="113" decoding="async">
     </a>
     <nav class="site-nav" id="site-nav" aria-label="Primary">
       <a href="#top" data-nav="top" aria-current="page" data-i18n="nav.home">Home</a>
@@ -122,9 +119,9 @@
   <main id="main">
     <section class="hero" id="top" aria-roledescription="carousel" aria-label="AREVA highlights">
       <div class="hero-media" aria-hidden="true">
-        <img class="hero-img is-active" src="assets/images/hero.jpg" alt="" width="1600" height="1000" fetchpriority="high">
-        <img class="hero-img" src="assets/images/hero-2.jpg" alt="" width="1600" height="1000">
-        <img class="hero-img" src="assets/images/hero-3.jpg" alt="" width="1600" height="1000">
+        <img class="hero-img is-active" src="assets/images/hero-800.webp" srcset="assets/images/hero-800.webp 800w, assets/images/hero-1600.webp 1600w" sizes="100vw" alt="" width="1600" height="1000" fetchpriority="high" decoding="async">
+        <img class="hero-img" data-src="assets/images/hero-2.webp" alt="" width="1600" height="1000" decoding="async">
+        <img class="hero-img" data-src="assets/images/hero-3.webp" alt="" width="1600" height="1000" decoding="async">
         <div class="hero-overlay"></div>
         <div class="hero-grid"></div>
       </div>
@@ -181,7 +178,7 @@
         <figure class="portrait-wrap">
           <span class="gold-tick" aria-hidden="true"></span>
           <div class="portrait">
-            <img src="assets/images/chairman.jpg" width="1200" height="1200" alt="Amr Yassin, Chairman of AREVA Development Group" data-i18n-alt="person.alt">
+            <img src="assets/images/chairman.webp" width="1200" height="1200" alt="Amr Yassin, Chairman of AREVA Development Group" loading="lazy" decoding="async" data-i18n-alt="person.alt">
             <figcaption class="nameplate">
               <strong data-i18n="person.name">Amr Yassin</strong>
               <span data-i18n="person.role">Chairman</span>
@@ -243,7 +240,7 @@
 
         <div class="card-grid">
           <a class="project-card" href="#glare">
-            <img src="assets/images/real-estate.jpg" width="1280" height="800" alt="Contemporary residential architecture" loading="lazy" data-i18n-alt="port.reAlt">
+            <img src="assets/images/real-estate.webp" width="1280" height="800" alt="Contemporary residential architecture" loading="lazy" data-i18n-alt="port.reAlt">
             <span class="pin" aria-hidden="true">
               <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
             </span>
@@ -256,7 +253,7 @@
           </a>
 
           <a class="project-card" href="#contact" data-interest="Education">
-            <img src="assets/images/education.jpg" width="1280" height="800" alt="Modern architecture for learning environments" loading="lazy" data-i18n-alt="port.edAlt">
+            <img src="assets/images/education.webp" width="1280" height="800" alt="Modern architecture for learning environments" loading="lazy" data-i18n-alt="port.edAlt">
             <span class="pin" aria-hidden="true">
               <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
             </span>
@@ -269,7 +266,7 @@
           </a>
 
           <a class="project-card" href="#contact" data-interest="Hotels &amp; Resorts">
-            <img src="assets/images/hotels.jpg" width="1280" height="800" alt="Resort pool surrounded by palms" loading="lazy" data-i18n-alt="port.hoAlt">
+            <img src="assets/images/hotels.webp" width="1280" height="800" alt="Resort pool surrounded by palms" loading="lazy" data-i18n-alt="port.hoAlt">
             <span class="pin" aria-hidden="true">
               <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
             </span>
@@ -282,7 +279,7 @@
           </a>
 
           <a class="project-card" href="#contact" data-interest="Agriculture">
-            <img src="assets/images/agriculture.jpg" width="1280" height="800" alt="Golden agricultural fields at sunset" loading="lazy" data-i18n-alt="port.agAlt">
+            <img src="assets/images/agriculture.webp" width="1280" height="800" alt="Golden agricultural fields at sunset" loading="lazy" data-i18n-alt="port.agAlt">
             <span class="pin" aria-hidden="true">
               <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
             </span>
@@ -299,7 +296,7 @@
 
     <section class="feature" id="glare" aria-labelledby="glare-title">
       <div class="feature-visual">
-        <img src="assets/images/glare.jpg" width="1400" height="1080" alt="Pool and contemporary villa at Glare, New Cairo" loading="lazy" data-i18n-alt="glare.alt">
+        <img src="assets/images/glare.webp" width="1400" height="1080" alt="Pool and contemporary villa at Glare, New Cairo" loading="lazy" data-i18n-alt="glare.alt">
         <div class="feature-tag">
           <span data-i18n="glare.tag">Featured destination</span>
           <strong data-i18n="glare.name">Glare</strong>
@@ -353,7 +350,7 @@
         <div class="media-grid">
           <article class="news-photo">
             <div class="news-frame">
-              <img src="assets/images/news.jpg" width="1200" height="800" alt="Construction progress at Glare New Cairo" loading="lazy" data-i18n-alt="news1.alt">
+              <img src="assets/images/news.webp" width="1200" height="800" alt="Construction progress at Glare New Cairo" loading="lazy" data-i18n-alt="news1.alt">
               <time datetime="2026-06-30">30 06 2026</time>
             </div>
             <p class="card-kicker" data-i18n="news1.k">Construction update</p>
@@ -395,7 +392,7 @@
 
     <section class="message" id="message" aria-labelledby="message-title">
       <div class="message-bg" aria-hidden="true">
-        <img src="assets/images/news.jpg" alt="" width="1200" height="800" loading="lazy">
+        <img src="assets/images/news.webp" alt="" width="1200" height="800" loading="lazy">
       </div>
       <div class="wrap message-grid">
         <div>
@@ -410,7 +407,7 @@
           </p>
         </div>
         <figure class="quote-photo">
-          <img src="assets/images/quote.jpg" width="1100" height="820" alt="Contemporary architecture by AREVA Development" loading="lazy" data-i18n-alt="msg.alt">
+          <img src="assets/images/quote.webp" width="1100" height="820" alt="Contemporary architecture by AREVA Development" loading="lazy" data-i18n-alt="msg.alt">
         </figure>
       </div>
     </section>
