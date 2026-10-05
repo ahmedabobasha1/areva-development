@@ -4162,6 +4162,208 @@ h5.preloader-text::after {
   border-radius: 24px;
   overflow: hidden;
 }
+.our-values-section.about-experience-section {
+  margin: 0;
+  border-radius: 0;
+}
+.our-values-section.about-experience-section .our-values-lead {
+  margin-bottom: 48px;
+}
+.about-mvv-section {
+  position: relative;
+  z-index: 9;
+  background-color: #f5ede7;
+  overflow: hidden;
+}
+.dark-theme .about-mvv-section {
+  background-color: #111;
+}
+.about-mvv-header {
+  margin-bottom: 36px;
+}
+.about-mvv-label {
+  display: inline-block;
+  margin-bottom: 12px;
+  padding: 6px 14px;
+  border: 1px solid rgba(199, 174, 134, 0.55);
+  border-radius: 100px;
+  font-family: "Kanit", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #C7AE86;
+  animation: valuesLabelGlow 3.5s ease-in-out infinite;
+}
+.about-mvv-title {
+  margin: 0;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(28px, 3.5vw, 42px);
+  font-weight: 600;
+  line-height: 1.12;
+  text-transform: uppercase;
+  color: #16212b;
+}
+.dark-theme .about-mvv-title {
+  color: #fff;
+}
+.about-mvv-title span {
+  color: #C7AE86;
+}
+.about-mvv-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.about-mvv-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  align-items: stretch;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid rgba(22, 33, 43, 0.06);
+  box-shadow: 0 14px 36px rgba(22, 33, 43, 0.05);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s ease;
+}
+.dark-theme .about-mvv-row {
+  background: #1a222b;
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.22);
+}
+.about-mvv-row:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 44px rgba(22, 33, 43, 0.1);
+}
+.about-mvv-row--swap {
+  grid-template-columns: 1fr 1fr;
+}
+.about-mvv-row--swap .about-mvv-media {
+  order: 2;
+}
+.about-mvv-row--swap .about-mvv-body {
+  order: 1;
+}
+.about-mvv-media {
+  position: relative;
+  overflow: hidden;
+  min-height: 220px;
+  max-height: 260px;
+}
+.about-mvv-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.about-mvv-row:hover .about-mvv-media img {
+  transform: scale(1.06);
+}
+.about-mvv-image-shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.22) 50%,
+    transparent 65%
+  );
+  transform: translateX(-120%);
+  pointer-events: none;
+}
+.about-mvv-row:hover .about-mvv-image-shine {
+  animation: aboutMvvShine 0.9s ease forwards;
+}
+@keyframes aboutMvvShine {
+  to {
+    transform: translateX(120%);
+  }
+}
+.about-mvv-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 28px 28px;
+}
+.about-mvv-tag {
+  display: inline-block;
+  width: fit-content;
+  margin-bottom: 10px;
+  padding: 5px 12px;
+  border-radius: 100px;
+  background: rgba(199, 174, 134, 0.14);
+  font-family: "Kanit", sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #C7AE86;
+}
+.about-mvv-body h3 {
+  margin: 0 0 10px;
+  font-family: "Kanit", sans-serif;
+  font-size: clamp(18px, 1.8vw, 22px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: #16212b;
+  transition: color 0.35s ease;
+}
+.dark-theme .about-mvv-body h3 {
+  color: #fff;
+}
+.about-mvv-row:hover .about-mvv-body h3 {
+  color: #C7AE86;
+}
+.about-mvv-body p {
+  margin: 0;
+  max-width: 380px;
+  font-family: "Kanit", sans-serif;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #5a6570;
+}
+.dark-theme .about-mvv-body p {
+  color: rgba(255, 255, 255, 0.65);
+}
+@media (max-width: 991px) {
+  .about-mvv-header {
+    margin-bottom: 28px;
+  }
+  .about-mvv-row,
+  .about-mvv-row--swap {
+    grid-template-columns: 1fr;
+  }
+  .about-mvv-row--swap .about-mvv-media,
+  .about-mvv-row--swap .about-mvv-body {
+    order: unset;
+  }
+  .about-mvv-media {
+    min-height: 180px;
+    max-height: 200px;
+    aspect-ratio: 16 / 9;
+  }
+  .about-mvv-body {
+    padding: 22px 20px;
+  }
+}
+@media (max-width: 767px) {
+  .about-mvv-list {
+    gap: 16px;
+  }
+  .about-mvv-body h3 {
+    font-size: 18px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .about-mvv-row,
+  .about-mvv-media img {
+    transition: none;
+  }
+}
 .our-values-bg-num {
   position: absolute;
   left: 50%;
