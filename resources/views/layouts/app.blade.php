@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-site-verification" content="4Y9xSvzowFFAlX_FEzjD1D2MFAzMh8Hmm0lRh2ERP1Y" />
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=AW-10985435576"></script>
   <script>
